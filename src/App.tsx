@@ -1,6 +1,7 @@
 import "./App.css";
 import GoogleSignIn from "./components/GoogleSignIn";
 import SignOut from "./components/SignOut";
+import TodoItem from "./components/TodoItem";
 
 // Firebase Configuration
 
@@ -35,6 +36,12 @@ function App() {
     return (
         <>
             <div>{user ? <SignOut /> : <GoogleSignIn />}</div>
+            <TodoItem>Hello Todo 6</TodoItem>
+            <TodoItem>Hello Todo 5</TodoItem>
+            <TodoItem>Hello Todo 4</TodoItem>
+            <TodoItem>Hello Todo 3</TodoItem>
+            <TodoItem>Hello Todo 2</TodoItem>
+            <TodoItem>Hello Todo 1</TodoItem>
         </>
     );
 }

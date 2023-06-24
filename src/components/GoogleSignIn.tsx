@@ -1,6 +1,5 @@
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { app } from "../App";
-import "./GoogleSignIn.css";
 
 function GoogleSignIn() {
     function SignInWithGoogle() {

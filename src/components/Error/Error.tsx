@@ -1,4 +1,4 @@
-import Styles from "./Error.module.css";
+// import Styles from "./Error.module.css";
 import { ReactNode } from "react";
 
 interface Props {

@@ -16,11 +16,7 @@ function EmailSignUp() {
         const confirm_password = confirm_passwordRef.current?.value;
         if (email && password && password === confirm_password) {
             // Creating a new user using Firebase Auth
-            const creatUserPromise = createUserWithEmailAndPassword(
-                auth,
-                email,
-                password
-            );
+            createUserWithEmailAndPassword(auth, email, password);
         }
     }
 

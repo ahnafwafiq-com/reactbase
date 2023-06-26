@@ -1,9 +1,17 @@
-// import MicrosoftSignIn from "./MicrosoftSignIn";
-// import GithubSignIn from "./GithubSignIn";
+import GithubSignIn from "./GithubSignIn";
 import FacebookSignIn from "./FacebookSignIn";
+import GoogleSignIn from "./GoogleSignIn";
+import TwitterSignIn from "./TwitterSignIn";
 
 function SignIn() {
-    return <FacebookSignIn />;
+    return (
+        <>
+            <GoogleSignIn />
+            <FacebookSignIn />
+            <GithubSignIn />
+            <TwitterSignIn />
+        </>
+    );
 }
 
 export default SignIn;

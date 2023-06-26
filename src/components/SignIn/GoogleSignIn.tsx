@@ -1,5 +1,6 @@
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import app from "../../Firebase-config";
+import { BsGoogle } from "react-icons/bs";
 
 function GoogleSignIn() {
     function SignInWithGoogle() {
@@ -8,9 +9,13 @@ function GoogleSignIn() {
         signInWithPopup(auth, provider);
     }
     return (
-        <>
-            <button onClick={SignInWithGoogle}>Sign in With Google</button>
-        </>
+        <div>
+            <BsGoogle
+                onClick={SignInWithGoogle}
+                color="#4C4B16"
+                size="36px"
+            ></BsGoogle>
+        </div>
     );
 }
 

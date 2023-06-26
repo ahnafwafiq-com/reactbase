@@ -1,5 +1,6 @@
 import app from "./../../Firebase-config";
 import { getAuth, FacebookAuthProvider, signInWithPopup } from "firebase/auth";
+import { BsFacebook } from "react-icons/bs";
 
 // import React from 'react'
 
@@ -9,7 +10,15 @@ function FacebookSignIn() {
         const provider = new FacebookAuthProvider();
         signInWithPopup(auth, provider);
     };
-    return <button onClick={onClick}>Sign In With Facebook</button>;
+    return (
+        <div>
+            <BsFacebook
+                color="#4C4B16"
+                size="36px"
+                onClick={onClick}
+            ></BsFacebook>
+        </div>
+    );
 }
 
 export default FacebookSignIn;

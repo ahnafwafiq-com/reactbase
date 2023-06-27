@@ -1,7 +1,7 @@
-import Styles from "./SideBar.module.css";
+// import Styles from "./SideBar.module.css";
 
 function SideBar() {
-    return <div>SideBar</div>;
+    return <div></div>;
 }
 
 export default SideBar;

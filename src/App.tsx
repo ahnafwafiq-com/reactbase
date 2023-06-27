@@ -15,7 +15,7 @@ import { getAuth } from "firebase/auth";
 getAnalytics(app);
 
 function App() {
-    const auth = getAuth(app);
+    // const auth = getAuth(app);
     // const [user] = useAuthState(auth);
     return (
         <>

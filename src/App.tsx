@@ -9,7 +9,7 @@ import app from "./Firebase-config";
 // Import the functions you need from the SDKs you need
 import { getAnalytics } from "firebase/analytics";
 // import {} from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+// import { getAuth } from "firebase/auth";
 // import { useAuthState } from "react-firebase-hooks/auth";
 
 getAnalytics(app);

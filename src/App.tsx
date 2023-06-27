@@ -10,13 +10,13 @@ import app from "./Firebase-config";
 import { getAnalytics } from "firebase/analytics";
 // import {} from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-import { useAuthState } from "react-firebase-hooks/auth";
+// import { useAuthState } from "react-firebase-hooks/auth";
 
 getAnalytics(app);
 
 function App() {
     const auth = getAuth(app);
-    const [user] = useAuthState(auth);
+    // const [user] = useAuthState(auth);
     return (
         <>
             {/* <div>{user ? <SignOut /> : <SignIn />}</div> */}

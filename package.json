@@ -30,7 +30,7 @@
     "typescript": "^5.0.2",
     "vite": "^4.3.9"
   },
-  "description": "A Chat app with Firebase and React",
+  "description": "A Todo app built using Firebase and React",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -41,5 +41,5 @@
   "bugs": {
     "url": "https://github.com/ahnafwafiq09/firebase-react/issues"
   },
-  "homepage": "https://github.com/ahnafwafiq09/firebase-react#readme"
+  "homepage": "https://firebase-react.ahnafwafiq.com"
 }

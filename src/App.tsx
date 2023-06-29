@@ -1,12 +1,9 @@
 import "./App.css";
-// import SignIn from "./components/SignIn";
-// import SignOut from "./components/SignOut";
 import "normalize.css";
-import TodoItem from "./components/TodoItem";
+import Error from "./components/Error";
+import SocialIcons from "./components/SocialIcons";
 import app from "./Firebase-config";
-// import { } from 'firebase/<service>';
 
-// Import the functions you need from the SDKs you need
 import { getAnalytics } from "firebase/analytics";
 // import {} from "firebase/firestore";
 // import { getAuth } from "firebase/auth";
@@ -19,12 +16,8 @@ function App() {
     // const [user] = useAuthState(auth);
     return (
         <>
-            {/* <div>{user ? <SignOut /> : <SignIn />}</div> */}
-            <TodoItem>Hello Todo 6</TodoItem>
-            <TodoItem>Hello Todo 6</TodoItem>
-            <TodoItem>Hello Todo 6</TodoItem>
-            <TodoItem>Hello Todo 6</TodoItem>
-            <TodoItem>Hello Todo 6</TodoItem>
+            <Error code="36e7hsh">User already exists</Error>
+            <SocialIcons></SocialIcons>
         </>
     );
 }

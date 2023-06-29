@@ -5,7 +5,7 @@ import { initializeApp } from "firebase/app";
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
     apiKey: "AIzaSyABqTDSmwk5mSnrAaNhECPVgSmMY__otuo",
-    authDomain: "aw-firebase-react.firebaseapp.com",
+    authDomain: "https://firebase-react.ahnafwafiq.com",
     databaseURL: "https://aw-firebase-react-default-rtdb.firebaseio.com",
     projectId: "aw-firebase-react",
     storageBucket: "aw-firebase-react.appspot.com",

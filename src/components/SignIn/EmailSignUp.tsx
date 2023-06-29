@@ -1,22 +1,44 @@
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { FormEvent, useRef } from "react";
+import { FormEvent, useRef, useState } from "react";
+import app from "firebase-config";
+import ShowError from "@components/Error";
+import { produce } from "immer";
 
 function EmailSignUp() {
+    // Using the useRef hooks for input fields
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     const confirm_passwordRef = useRef<HTMLInputElement>(null);
     const errorRef = useRef<HTMLDivElement>(null);
 
+    const [AuthError, setAuthError] = useState({
+        error: false,
+        code: "",
+        message: "",
+    });
+
     // Function to handle form submit
     function onSubmitClick(e: FormEvent) {
         e.preventDefault();
-        const auth = getAuth();
+        const auth = getAuth(app);
         const email = emailRef.current?.value;
         const password = passwordRef.current?.value;
         const confirm_password = confirm_passwordRef.current?.value;
         if (email && password && password === confirm_password) {
             // Creating a new user using Firebase Auth
-            createUserWithEmailAndPassword(auth, email, password);
+            try {
+                createUserWithEmailAndPassword(auth, email, password);
+            } catch (e: any) {
+                const code = e.code;
+                const msg = e.message;
+                setAuthError(
+                    produce((draft) => {
+                        draft.error = true;
+                        draft.code = code;
+                        draft.message = msg;
+                    })
+                );
+            }
         }
     }
 
@@ -31,7 +53,7 @@ function EmailSignUp() {
         }
     }
     return (
-        <form onSubmit={(e) => onSubmitClick(e)}>
+        <form onSubmit={onSubmitClick}>
             <input
                 ref={emailRef}
                 type="email"
@@ -53,6 +75,11 @@ function EmailSignUp() {
             />
             <div className="err" ref={errorRef}></div>
             <button>Sign Up</button>
+            {AuthError.error ? (
+                <ShowError code={AuthError.code || ""}>
+                    {AuthError.message}
+                </ShowError>
+            ) : null}
         </form>
     );
 }

@@ -1,20 +1,23 @@
+@import url("../../CSS/variables.css");
+
 .checkBox {
-    width: 1.1rem;
+    width: 1rem;
     aspect-ratio: 1;
-    border: 0.01 solid #000;
+    outline: 0;
+    accent-color: var(--color-two);
 }
 
 .checkBoxTd {
     padding: 10px;
 }
 
-.checkBox:hover {
-    cursor: pointer;
-    background-color: #000;
-}
-
 .deleteButtonTd {
     padding: 10px;
+    color: var(--color-two);
+}
+
+.editButton {
+    color: var(--color-two);
 }
 
 .todoText {
@@ -23,6 +26,7 @@
         Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
         sans-serif;
     width: clamp(250px, 100vw, 700px);
+    color: var(--color-two);
 }
 
 .todoItem {
@@ -32,6 +36,20 @@
     padding: 5px;
 }
 
+.todoItem:hover {
+    background-color: #fbffdc;
+}
+
 .textFinished {
     text-decoration: line-through;
+}
+
+.editButton:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.deleteButton:hover {
+    transform: scale(1.1);
+    cursor: pointer;
 }

@@ -2,7 +2,6 @@
 import Styles from "./TodoItem.module.css";
 import { MdOutlineDelete } from "react-icons/md";
 import { BiEditAlt } from "react-icons/bi";
-import { BsCheckCircleFill, BsCheckCircle } from "react-icons/bs";
 
 // Defining Interface for <TodoItem/> props
 interface Props {

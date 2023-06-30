@@ -8,16 +8,16 @@ A **Todo app** built with **React** with **Firebase**.
 
 Use one of the links below to test the app live.
 
-[firebase-react.ahnafwafiq.com](https://firebase-react.ahnafwafiq.com/)\
-[aw-firebase-react.web.app](https://aw-firebase-app.web.app/)\
-[aw-firebase-react.firebaseapp.com](https://aw-firebase-react.firebaseapp.com/)
+    [firebase-react.ahnafwafiq.com](https://firebase-react.ahnafwafiq.com/)\
+    [aw-firebase-react.web.app](https://aw-firebase-app.web.app/)\
+    [aw-firebase-react.firebaseapp.com](https://aw-firebase-react.firebaseapp.com/)
 
 ### **Play Around with the code:**
 
 You can see how the app works and the code right here in Github. But if you want to play around with it, I recommend you cloning the repo on your local machine by running the following command on your terminal:
 
 ```
-~$ git clone https://github.com/ahnafwafiq09/firebase-react.git
+$ git clone https://github.com/ahnafwafiq09/firebase-react.git
 ```
 
 You can also use a cloud version of VSCode by hitting the period (.) key right now in the homepage of the Github Repo.

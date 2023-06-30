@@ -1,10 +1,14 @@
-import "./App.css";
+// Importing CSS files
+import "./CSS/App.css";
 import "normalize.css";
-import Error from "./components/Error";
-import SocialIcons from "./components/SocialIcons";
-import app from "./Firebase-config";
-import TodoItem from "./components/TodoList/TodoItem";
 
+// Importing External Components
+import Error from "./components/Error";
+// import SocialIcons from "./components/SocialIcons";
+import TodoList from "./components/TodoList";
+
+// Importing Firebase features
+import app from "./Firebase-config";
 import { getAnalytics } from "firebase/analytics";
 // import {} from "firebase/firestore";
 // import { getAuth } from "firebase/auth";
@@ -12,42 +16,29 @@ import { getAnalytics } from "firebase/analytics";
 
 getAnalytics(app);
 
+interface Todo {
+    id: string;
+    task: string;
+    finished: boolean;
+    created: Date;
+}
+
 function App() {
+    const TodoListProps: Todo[] = [];
+    for (let i = 0; i <= 1000; i++) {
+        TodoListProps.push({
+            id: `${Math.random() * 100000000}`,
+            task: `Task ${i} ${Math.random()}`,
+            finished: Math.round(Math.random()) ? true : false,
+            created: new Date(),
+        });
+    }
     // const auth = getAuth(app);
     // const [user] = useAuthState(auth);
     return (
         <>
             <Error code="36e7hsh">User already exists</Error>
-            <TodoItem finished={false}>Hello Todo 1</TodoItem>
-            <TodoItem finished={false}>Hello Todo 2</TodoItem>
-            <TodoItem finished={true}>Hello Todo 3</TodoItem>
-            <TodoItem finished={false}>Hello Todo 4</TodoItem>
-            <TodoItem finished={true}>Hello Todo 6</TodoItem>
-            <TodoItem finished={false}>Hello Todo 7</TodoItem>
-            <TodoItem finished={false}>Hello Todo 7</TodoItem>
-            <TodoItem finished={false}>Hello Todo 7</TodoItem>
-            <TodoItem finished={false}>Hello Todo 7</TodoItem>
-            <TodoItem finished={false}>Hello Todo 7</TodoItem>
-            <TodoItem finished={false}>Hello Todo 7</TodoItem>
-            <TodoItem finished={false}>Hello Todo 7</TodoItem>
-            <TodoItem finished={false}>Hello Todo 7</TodoItem>
-            <TodoItem finished={false}>Hello Todo 7</TodoItem>
-            <TodoItem finished={false}>Hello Todo 7</TodoItem>
-            <TodoItem finished={false}>Hello Todo 7</TodoItem>
-            <TodoItem finished={false}>Hello Todo 7</TodoItem>
-            <TodoItem finished={true}>Hello Todo 7</TodoItem>
-            <TodoItem finished={true}>Hello Todo 7</TodoItem>
-            <TodoItem finished={true}>Hello Todo 7</TodoItem>
-            <TodoItem finished={true}>Hello Todo 7</TodoItem>
-            <TodoItem finished={false}>Hello Todo 7</TodoItem>
-            <TodoItem finished={false}>Hello Todo 7</TodoItem>
-            <TodoItem finished={false}>Hello Todo 7</TodoItem>
-            <TodoItem finished={false}>Hello Todo 7</TodoItem>
-            <TodoItem finished={true}>Hello Todo 7</TodoItem>
-            <TodoItem finished={false}>Hello Todo 7</TodoItem>
-            <TodoItem finished={false}>Hello Todo 7</TodoItem>
-            <TodoItem finished={false}>Hello Todo 7</TodoItem>
-            <SocialIcons></SocialIcons>
+            <TodoList items={TodoListProps} />
         </>
     );
 }

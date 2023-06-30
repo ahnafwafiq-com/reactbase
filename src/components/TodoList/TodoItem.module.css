@@ -11,20 +11,19 @@
     padding: 10px;
 }
 
-.deleteButtonTd {
+.deleteButton {
     padding: 10px;
     color: var(--color-two);
+    transition: transform 0.25s;
 }
 
 .editButton {
     color: var(--color-two);
+    transition: transform 0.25s;
 }
 
 .todoText {
     font-size: 1rem;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
-        sans-serif;
     width: clamp(250px, 100vw, 700px);
     color: var(--color-two);
 }
@@ -52,4 +51,16 @@
 .deleteButton:hover {
     transform: scale(1.1);
     cursor: pointer;
+}
+
+.optionsButton {
+    color: var(--color-two);
+    padding: 10px;
+    padding-left: 0;
+    transition: transform 0.25s;
+}
+
+.optionsButton:hover {
+    cursor: pointer;
+    transform: scale(1.1);
 }

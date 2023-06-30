@@ -8,9 +8,9 @@ A **Todo app** built with **React** with **Firebase**.
 
 Use one of the links below to test the app live.
 
-    [firebase-react.ahnafwafiq.com](https://firebase-react.ahnafwafiq.com/)\
-    [aw-firebase-react.web.app](https://aw-firebase-app.web.app/)\
-    [aw-firebase-react.firebaseapp.com](https://aw-firebase-react.firebaseapp.com/)
+[firebase-react.ahnafwafiq.com](https://firebase-react.ahnafwafiq.com/)\
+[aw-firebase-react.web.app](https://aw-firebase-app.web.app/)\
+[aw-firebase-react.firebaseapp.com](https://aw-firebase-react.firebaseapp.com/)
 
 ### **Play Around with the code:**
 

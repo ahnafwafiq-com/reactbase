@@ -1,7 +1,7 @@
 // import { useState } from "react";
 import Styles from "./TodoItem.module.css";
 import { MdOutlineDelete } from "react-icons/md";
-import { BiEditAlt } from "react-icons/bi";
+import { BiEditAlt, BiDotsVerticalRounded } from "react-icons/bi";
 
 // Defining Interface for <TodoItem/> props
 interface Props {
@@ -48,9 +48,14 @@ function TodoItem({ children, finished }: Props) {
                 )}
             </td>
 
-            <td className={Styles.deleteButtonTd}>
+            <td>
                 <div className={Styles.deleteButton} title="Delete Todo">
                     <MdOutlineDelete size={iconSize} />
+                </div>
+            </td>
+            <td>
+                <div className={Styles.optionsButton}>
+                    <BiDotsVerticalRounded size={iconSize} />
                 </div>
             </td>
         </tr>

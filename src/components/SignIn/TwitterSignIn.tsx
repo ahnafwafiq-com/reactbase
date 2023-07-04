@@ -1,9 +1,10 @@
 import { getAuth, TwitterAuthProvider, signInWithPopup } from "firebase/auth";
-import app from "firebase-config";
+import app from "../../Firebase-config";
 import { BsTwitter } from "react-icons/bs";
 import { produce } from "immer";
 import { useState } from "react";
-import ShowError from "@components/Error";
+import ShowError from "../Error";
+import Styles from "./SignIn.module.css";
 
 function TwitterSignIn() {
     const [AuthError, setAuthError] = useState({
@@ -29,7 +30,7 @@ function TwitterSignIn() {
         }
     };
     return (
-        <div onClick={onClick}>
+        <div className={Styles.loginIcon} onClick={onClick}>
             <BsTwitter color="#4C4B16" size="36px"></BsTwitter>
             {AuthError.error ? (
                 <ShowError code={AuthError.code || ""}>

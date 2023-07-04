@@ -1,9 +1,10 @@
 import { getAuth, GithubAuthProvider, signInWithPopup } from "firebase/auth";
-import app from "firebase-config";
+import app from "../../Firebase-config";
 import { BsGithub } from "react-icons/bs";
 import { useState } from "react";
 import { produce } from "immer";
-import ShowError from "@components/Error";
+import ShowError from "../Error";
+import Styles from "./SignIn.module.css";
 
 function GithubSignIn() {
     const [AuthError, setAuthError] = useState({
@@ -29,7 +30,7 @@ function GithubSignIn() {
         }
     };
     return (
-        <div onClick={onClick}>
+        <div className={Styles.loginIcon} onClick={onClick}>
             <BsGithub color="4C4B16" size="36px"></BsGithub>
             {AuthError.error ? (
                 <ShowError code={AuthError.code || ""}>

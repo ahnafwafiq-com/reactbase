@@ -1,11 +1,10 @@
-import app from "firebase-config";
+import app from "../../Firebase-config";
 import { getAuth, FacebookAuthProvider, signInWithPopup } from "firebase/auth";
 import { BsFacebook } from "react-icons/bs";
 import { useState } from "react";
-import ShowError from "@components/Error";
+import ShowError from "../Error";
 import { produce } from "immer";
-
-// import React from 'react'
+import Styles from "./SignIn.module.css";
 
 function FacebookSignIn() {
     const [AuthError, setAuthError] = useState({
@@ -31,14 +30,16 @@ function FacebookSignIn() {
         }
     };
     return (
-        <div onClick={onClick}>
-            <BsFacebook color="#4C4B16" size="36px"></BsFacebook>
+        <>
+            <div className={Styles.loginIcon} onClick={onClick}>
+                <BsFacebook color="#4C4B16" size="36px"></BsFacebook>
+            </div>
             {AuthError.error ? (
                 <ShowError code={AuthError.code || ""}>
                     {AuthError.message}
                 </ShowError>
             ) : null}
-        </div>
+        </>
     );
 }
 

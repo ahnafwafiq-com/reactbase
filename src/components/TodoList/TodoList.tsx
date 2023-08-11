@@ -37,7 +37,7 @@ function TodoList({ items }: Props) {
                     return item.task.toLowerCase().includes(query)
                         ? item
                         : null;
-                })
+                }),
             );
         }
     };

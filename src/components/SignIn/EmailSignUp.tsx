@@ -4,6 +4,7 @@ import app from "../../Firebase-config";
 import ShowError from "../Error";
 import { produce } from "immer";
 import Styles from "./SignIn.module.css";
+import PasswordValidator from "password-validator";
 
 interface Props {
     switchTab: () => void;
@@ -33,46 +34,26 @@ function EmailSignUp({ switchTab }: Props) {
         const email = emailRef.current?.value;
         const password = passwordRef.current?.value;
         const confirm_password = confirm_passwordRef.current?.value;
-
+        if (!errorRef.current) return;
         // Checking if a email was provided
         if (!email) {
-            if (errorRef.current) {
-                errorRef.current.innerText =
-                    "Please provide a valid Email address";
-            }
+            errorRef.current.innerText = "Please provide a valid Email address";
+            return;
+        }
+        //Checking if password confirmation was provided
+        if (!confirm_password) {
+            errorRef.current.innerText = "Please re-enter the password";
+
+            return;
+        }
+
+        if (password !== confirm_password) {
+            errorRef.current.innerText = "Passwords do not match";
             return;
         }
 
         // Checking if a password was provided
-        if (!password) {
-            if (errorRef.current) {
-                errorRef.current.innerText = "Please provide a password";
-            }
-            return;
-        }
-
-        //Checking if password confirmation was provided
-        if (!confirm_password) {
-            if (errorRef.current) {
-                errorRef.current.innerText = "Please re-enter the password";
-            }
-            return;
-        }
-
-        // Checking if the password is longer than 8 characters
-        if (password && password.length < 8) {
-            if (errorRef.current) {
-                errorRef.current.innerText =
-                    "Password must be longer than 8 characters";
-                return;
-            }
-        }
-
-        // Checking if password and password confirmation match
-        if (password !== confirm_password) {
-            if (errorRef.current) {
-                errorRef.current.innerText = "Passwords do not match";
-            }
+        if (validatePassword()) {
             return;
         }
 
@@ -81,7 +62,7 @@ function EmailSignUp({ switchTab }: Props) {
             email &&
             password &&
             password === confirm_password &&
-            password.length >= 8
+            validatePassword()
         ) {
             // Creating a new user using Firebase Auth
             try {
@@ -94,25 +75,44 @@ function EmailSignUp({ switchTab }: Props) {
                         draft.error = true;
                         draft.code = code;
                         draft.message = msg;
-                    })
+                    }),
                 );
             }
         }
     }
 
     // Function to check if passwords match
-    function validatePassword() {
+    function validatePassword(): boolean {
+        const schema = new PasswordValidator();
+        schema
+            .is()
+            .min(8, "Password must have atleast 8 characters") // Minimum length 8
+            .is()
+            .max(100, "Password can't have more than 100 characters") // Maximum length 100
+            .has()
+            .uppercase(1, "Password must contain uppercase letters") // Must have uppercase letters
+            .has()
+            .lowercase(1, "Password must contain lowercase letters") // Must have lowercase letters
+            .has()
+            .digits(2, "Password must have atleast 2 numbers") // Must have at least 2 digits
+            .has()
+            .not()
+            .spaces(0, "Password must not contain spaces"); // Should not have spaces
         const password = passwordRef.current?.value;
-        if (password && password.length < 8) {
+        if (!password) return false;
+        const validation = schema.validate(password, { details: true });
+        if (Array.isArray(validation) && validation.length !== 0) {
             if (errorRef.current) {
-                errorRef.current.innerText =
-                    "Password must be longer than 8 characters";
+                errorRef.current.innerText = validation[0].message;
             }
-        } else if (password && password.length >= 8) {
+            return false;
+        } else {
             if (errorRef.current) {
                 errorRef.current.innerText = "";
+                return true;
             }
         }
+        return false;
     }
     function confirmPassword() {
         const password = passwordRef.current?.value;

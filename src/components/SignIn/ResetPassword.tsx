@@ -1,8 +1,9 @@
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import app from "../../Firebase-config";
 import { produce } from "immer";
-import React, { useRef, useState } from "react";
-import ShowError from "@components/Error";
+import { useRef, useState, FormEvent } from "react";
+import Styles from "./SignIn.module.css";
+import ShowError from "../Error";
 
 function ResetPassword() {
     const emailRef = useRef<HTMLInputElement>(null);
@@ -12,7 +13,7 @@ function ResetPassword() {
         code: "",
         message: "",
     });
-    const OnClick = async (e: React.FormEvent) => {
+    const OnSubmit = async (e: FormEvent) => {
         e.preventDefault();
         const auth = getAuth(app);
         if (emailRef.current?.value) {
@@ -24,21 +25,29 @@ function ResetPassword() {
                         draft.error = true;
                         draft.code = e.code;
                         draft.message = e.message;
-                    })
+                    }),
                 );
             }
         }
     };
     return (
         <div>
-            <input
-                ref={emailRef}
-                type="email"
-                name="email"
-                id="email"
-                placeholder="Email Address:"
-            />
-            <button onClick={OnClick}>Reset Password</button>
+            <form onSubmit={OnSubmit} className={Styles.form}>
+                <input
+                    ref={emailRef}
+                    type="email"
+                    name="email"
+                    id="email"
+                    required
+                    placeholder="Email Address:"
+                />
+                <button type="reset" className={Styles.resetButton}>
+                    Clear
+                </button>
+                <button type="submit" className={Styles.submitButton}>
+                    Reset Password
+                </button>
+            </form>
             {AuthError.error ? (
                 <ShowError
                     code={AuthError.code}

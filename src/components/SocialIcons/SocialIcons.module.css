@@ -1,7 +1,0 @@
-@import url("../../CSS/variables.css");
-.Icon {
-    color: var(--color-two);
-}
-.Icon:hover {
-    color: #4267b2;
-}

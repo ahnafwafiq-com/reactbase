@@ -5,7 +5,7 @@ import Error from "../Error";
 import Styles from "./SignIn.module.css";
 
 interface Props {
-    switchTab: () => void;
+    switchTab: (num: number) => void;
 }
 
 function EmailSignIn({ switchTab }: Props) {
@@ -76,7 +76,11 @@ function EmailSignIn({ switchTab }: Props) {
                 <button type="reset" className={Styles.resetButton}>
                     Clear
                 </button>
-                <button type="button" className={Styles.forgotButton}>
+                <button
+                    type="button"
+                    className={Styles.forgotButton}
+                    onClick={() => switchTab(2)}
+                >
                     Forgot Password?
                 </button>
                 <button type="submit" className={Styles.submitButton}>
@@ -84,7 +88,7 @@ function EmailSignIn({ switchTab }: Props) {
                 </button>
                 <p className={Styles.optionText}>
                     Don't have an account?{" "}
-                    <span onClick={switchTab}>Sign Up</span> instead!
+                    <span onClick={() => switchTab(0)}>Sign Up</span> instead!
                 </p>
             </form>
             {AuthError.error ? (

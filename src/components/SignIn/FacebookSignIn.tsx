@@ -25,7 +25,7 @@ function FacebookSignIn() {
                     draft.error = true;
                     draft.code = code;
                     draft.message = msg;
-                })
+                }),
             );
         }
     };

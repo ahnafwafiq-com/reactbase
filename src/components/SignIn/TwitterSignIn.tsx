@@ -33,7 +33,12 @@ function TwitterSignIn() {
         <div className={Styles.loginIcon} onClick={onClick}>
             <BsTwitter color="#4C4B16" size="36px"></BsTwitter>
             {AuthError.error ? (
-                <ShowError code={AuthError.code || ""}>
+                <ShowError
+                    code={AuthError.code}
+                    onClose={() =>
+                        setAuthError({ error: false, code: "", message: "" })
+                    }
+                >
                     {AuthError.message}
                 </ShowError>
             ) : null}

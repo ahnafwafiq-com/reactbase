@@ -35,7 +35,12 @@ function FacebookSignIn() {
                 <BsFacebook color="#4C4B16" size="36px"></BsFacebook>
             </div>
             {AuthError.error ? (
-                <ShowError code={AuthError.code || ""}>
+                <ShowError
+                    code={AuthError.code || ""}
+                    onClose={() =>
+                        setAuthError({ error: false, code: "", message: "" })
+                    }
+                >
                     {AuthError.message}
                 </ShowError>
             ) : null}

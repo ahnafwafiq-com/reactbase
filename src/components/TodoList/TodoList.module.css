@@ -4,3 +4,8 @@
     font-size: 1.2rem;
     border-radius: 5px;
 }
+
+.collapse {
+    width: clamp(200px, 100vw, 850px);
+    height: 2.2rem;
+}

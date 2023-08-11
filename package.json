@@ -1,13 +1,16 @@
 {
   "name": "firebase-react",
-  "private": true,
   "version": "1.0.0",
+  "description": "A Todo app built using Firebase and React",
+  "homepage": "https://firebase-react.ahnafwafiq.com",
+  "main": "app.tsx",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "typecheck": "tsc"
   },
   "dependencies": {
     "firebase": "^9.23.0",
@@ -30,8 +33,6 @@
     "typescript": "^5.0.2",
     "vite": "^4.3.9"
   },
-  "description": "A Todo app built using Firebase and React",
-  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ahnafwafiq09/firebase-react.git"
@@ -40,6 +41,5 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ahnafwafiq09/firebase-react/issues"
-  },
-  "homepage": "https://firebase-react.ahnafwafiq.com"
+  }
 }

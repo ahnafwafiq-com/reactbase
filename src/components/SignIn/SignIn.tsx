@@ -6,57 +6,41 @@ import TwitterSignIn from "./TwitterSignIn";
 import EmailSignIn from "./EmailSignIn";
 import EmailSignUp from "./EmailSignUp";
 import Styles from "./SignIn.module.css";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { CgClose } from "react-icons/cg";
 
-function SignIn() {
+function SignIn({ isOpen }: { isOpen: boolean }) {
+    const dialogRef = useRef<HTMLDialogElement>(null);
     // 0 = Sign In
     // 1 = Sign Up
-    const [window, setWindow] = useState(0);
+    const [isSignUp, setWindow] = useState<boolean>(false);
     return (
-        <div className={Styles.signInWindow}>
-            {window ? <h2>Sign Up</h2> : <h2>Sign In</h2>}
+        <dialog ref={dialogRef} open={isOpen} className={Styles.signInModal}>
+            <div
+                className={Styles.closebutton}
+                onClick={() => dialogRef.current?.close()}
+            >
+                <CgClose size="20px"></CgClose>
+            </div>
+            {isSignUp ? <h2>Sign Up</h2> : <h2>Sign In</h2>}
             <button
                 type="button"
-                className={
-                    window
-                        ? [
-                              Styles.tabButton,
-                              Styles.tabButton0,
-                              Styles.tabButtonActive,
-                          ].join(" ")
-                        : [
-                              Styles.tabButton,
-                              Styles.tabButton0,
-                              Styles.tabButtonInactive,
-                          ].join(" ")
-                }
-                onClick={() => setWindow(1)}
+                className={Styles.signUpButton}
+                onClick={() => setWindow(true)}
             >
                 Sign Up
             </button>
             <button
                 type="button"
-                className={
-                    window
-                        ? [
-                              Styles.tabButton,
-                              Styles.tabButton1,
-                              Styles.tabButtonInactive,
-                          ].join(" ")
-                        : [
-                              Styles.tabButton,
-                              Styles.tabButton1,
-                              Styles.tabButtonActive,
-                          ].join(" ")
-                }
-                onClick={() => setWindow(0)}
+                className={Styles.signInButton}
+                onClick={() => setWindow(false)}
             >
                 Sign In
             </button>
-            {window ? (
-                <EmailSignUp switchTab={() => setWindow(0)} />
+            {isSignUp ? (
+                <EmailSignUp switchTab={() => setWindow(false)} />
             ) : (
-                <EmailSignIn switchTab={() => setWindow(1)} />
+                <EmailSignIn switchTab={() => setWindow(true)} />
             )}
             <div className={Styles.providerButtons}>
                 <p>Or Sign in with: </p>
@@ -65,7 +49,7 @@ function SignIn() {
                 <GithubSignIn />
                 <TwitterSignIn />
             </div>
-        </div>
+        </dialog>
     );
 }
 

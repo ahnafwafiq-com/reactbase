@@ -40,7 +40,18 @@ function ResetPassword() {
             />
             <button onClick={OnClick}>Reset Password</button>
             {AuthError.error ? (
-                <ShowError code={AuthError.code}>{AuthError.message}</ShowError>
+                <ShowError
+                    code={AuthError.code}
+                    onClose={() =>
+                        setAuthError({
+                            error: false,
+                            code: "",
+                            message: "",
+                        })
+                    }
+                >
+                    {AuthError.message}
+                </ShowError>
             ) : null}
         </div>
     );

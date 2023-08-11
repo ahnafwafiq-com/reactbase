@@ -1,7 +1,6 @@
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import app from "../../Firebase-config";
 import { useRef, useState, FormEvent } from "react";
-import { produce } from "immer";
 import Error from "../Error";
 import Styles from "./SignIn.module.css";
 
@@ -46,13 +45,11 @@ function EmailSignIn({ switchTab }: Props) {
             } catch (e: any) {
                 const code = e.code;
                 const msg = e.message;
-                setAuthError(
-                    produce((draft) => {
-                        draft.error = true;
-                        draft.code = code;
-                        draft.message = msg;
-                    })
-                );
+                setAuthError({
+                    error: true,
+                    code: code,
+                    message: msg,
+                });
             }
         }
     }
@@ -91,7 +88,18 @@ function EmailSignIn({ switchTab }: Props) {
                 </p>
             </form>
             {AuthError.error ? (
-                <Error code={AuthError.code || ""}>{AuthError.message}</Error>
+                <Error
+                    code={AuthError.code || ""}
+                    onClose={() =>
+                        setAuthError({
+                            error: false,
+                            code: "",
+                            message: "",
+                        })
+                    }
+                >
+                    {AuthError.message}
+                </Error>
             ) : null}
         </div>
     );

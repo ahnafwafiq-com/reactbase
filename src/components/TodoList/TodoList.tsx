@@ -1,9 +1,8 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import TodoItem from "./TodoItem";
 import Styles from "./TodoList.module.css";
-// import { getAuth } from "firebase/auth";
-// import app from "../../Firebase-config";
-// import { collection } from "firebase/firestore";
+import { IoIosArrowForward } from "react-icons/io";
+
 interface Todo {
     id: string;
     task: string;
@@ -20,13 +19,15 @@ function TodoList({ items }: Props) {
     // auth.currentUser?.photoURL;
     const searchRef = useRef<HTMLInputElement>(null);
 
-    document.addEventListener("keyup", (e) => {
-        if (e.key === "/") {
-            if (searchRef.current) {
-                searchRef.current.focus();
+    useEffect(() => {
+        document.addEventListener("keyup", (e) => {
+            if (e.key === "/") {
+                if (searchRef.current) {
+                    searchRef.current.focus();
+                }
             }
-        }
-    });
+        });
+    }, []);
 
     const search = () => {
         const query = searchRef?.current?.value.toLowerCase();
@@ -51,15 +52,28 @@ function TodoList({ items }: Props) {
                 className={Styles.searchbox}
             />
             <table>
-                <tbody>
-                    {TodoItems.map((item) => {
-                        return item.finished ? null : (
-                            <TodoItem key={item.id} finished={false}>
-                                {item.task}
-                            </TodoItem>
-                        );
-                    })}
-                </tbody>
+                {TodoItems.map((item) => {
+                    return item.finished ? null : (
+                        <TodoItem key={item.id} finished={false}>
+                            {item.task}
+                        </TodoItem>
+                    );
+                })}
+            </table>
+            <div className={Styles.collapse}>
+                <h4>Finished</h4>
+                <span className={Styles.arrowIcon}>
+                    <IoIosArrowForward></IoIosArrowForward>
+                </span>
+            </div>
+            <table>
+                {items.map((item) => {
+                    return (
+                        <TodoItem finished={true} key={item.id}>
+                            {item.task}
+                        </TodoItem>
+                    );
+                })}
             </table>
         </div>
     );

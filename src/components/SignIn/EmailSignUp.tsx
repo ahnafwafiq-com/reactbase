@@ -166,7 +166,12 @@ function EmailSignUp({ switchTab }: Props) {
                 </p>
             </form>
             {AuthError.error ? (
-                <ShowError code={AuthError.code || ""}>
+                <ShowError
+                    code={AuthError.code || ""}
+                    onClose={() =>
+                        setAuthError({ error: false, code: "", message: "" })
+                    }
+                >
                     {AuthError.message}
                 </ShowError>
             ) : null}

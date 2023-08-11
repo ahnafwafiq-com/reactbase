@@ -6,14 +6,10 @@ import { useRef } from "react";
 interface Props {
     children: string | ReactNode;
     code: string;
+    onClose: () => void;
 }
 
-function ShowError({ children, code }: Props) {
-    const OnClick = () => {
-        if (divRef.current) {
-            divRef.current.style.display = "none";
-        }
-    };
+function ShowError({ children, code, onClose }: Props) {
     const divRef = useRef<HTMLDivElement>(null);
     return (
         <div ref={divRef} className={Styles.errorDiv}>
@@ -23,7 +19,7 @@ function ShowError({ children, code }: Props) {
             <div className={Styles.code}>
                 <b>Code:</b> {code}
             </div>
-            <div onClick={OnClick} className={Styles.closeError}>
+            <div onClick={onClose} className={Styles.closeError}>
                 <CgClose size="1.6rem"></CgClose>
             </div>
         </div>

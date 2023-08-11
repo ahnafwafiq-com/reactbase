@@ -2,7 +2,6 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import app from "../../Firebase-config";
 import { BsGoogle } from "react-icons/bs";
 import { useState } from "react";
-import { produce } from "immer";
 import ShowError from "../Error";
 import Styles from "./SignIn.module.css";
 
@@ -20,13 +19,11 @@ function GoogleSignIn() {
         } catch (e: any) {
             const code = e.code;
             const msg = e.message;
-            setAuthError(
-                produce((draft) => {
-                    draft.error = true;
-                    draft.code = code;
-                    draft.message = msg;
-                })
-            );
+            setAuthError({
+                error: true,
+                code: code,
+                message: msg,
+            });
         }
     }
     return (
@@ -35,7 +32,12 @@ function GoogleSignIn() {
                 <BsGoogle color="#4C4B16" size="36px"></BsGoogle>
             </div>
             {AuthError.error ? (
-                <ShowError code={AuthError.code || ""}>
+                <ShowError
+                    code={AuthError.code}
+                    onClose={() =>
+                        setAuthError({ error: false, code: "", message: "" })
+                    }
+                >
                     {AuthError.message}
                 </ShowError>
             ) : null}

@@ -1,176 +1,59 @@
 @import url("../../CSS/variables.css");
 
-.loginIcon {
-    display: inline-block;
-    padding: 5px;
-}
-
-.signInWindow h2 {
-    text-align: center;
-    font-size: 3rem;
-    color: var(--color-two);
-}
-
-.loginIcon:hover {
-    cursor: pointer;
-}
-
-.form {
-    width: clamp(200px, 100vw, 425px);
-}
-
-.input {
-    width: clamp(200px, 94vw, 404px);
-    border-radius: 12.5px;
-    height: 25px;
-    box-sizing: content-box;
-    display: block;
-    margin: 10px 0;
-    padding: 10px;
-    border: 0.1px solid var(--color-two);
-    transition: all 0.25s;
-}
-
-.input::placeholder {
-    color: var(--color-two);
-}
-
-.input:hover {
-    outline: 1.2px solid var(--color-two);
-}
-.input:focus {
-    border-color: var(--color-two);
-    outline: 0;
-
-    -webkit-box-shadow: var(--input-shadow);
-    box-shadow: var(--input-shadow);
-}
-
-/* CSS for Sign in and Sign Up buttons */
-.submitButton {
-    width: 100%;
-    margin: 5px 0;
-    color: var(--color-one);
-    height: 40px;
-    border: 0.1px solid var(--color-two);
-    border-radius: 12.5px;
-    background-color: var(--color-two);
-}
-
-.submitButton:hover {
-    background-color: var(--color-four);
-    cursor: pointer;
-}
-
-/* CSS for Forgot Password Button */
-.forgotButton {
-    border: 0;
-    background-color: transparent;
-    position: relative;
-    left: 240px;
-    color: var(--color-two);
-}
-
-.forgotButton:hover {
-    cursor: pointer;
-    color: var(--color-four);
-}
-
-.signInWindow {
-    width: clamp(200px, 100vw, 425px);
-    padding: 25px;
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.providerButtons p {
-    color: var(--color-two);
-    text-align: center;
-    font-size: 1.2rem;
+.signInModal {
+    width: 400px;
+    background-color: var(--color-one);
+    border-radius: 25px;
+    border: 0.1px solid var(--color-four);
+    box-shadow: 0px 0px 50px 0px rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: 0px 0px 50px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 0px 50px 0px rgba(0, 0, 0, 0.75);
 }
 
 .providerButtons {
     display: flex;
     align-items: center;
-    justify-content: center;
 }
 
-.resetButton {
-    position: relative;
-    left: 10px;
-    border: 0;
-    background-color: transparent;
+.loginIcon {
+    margin: 5px;
+}
+
+.providerButtons p {
+    margin-right: 10px;
+}
+
+.closebutton {
+    position: absolute;
+    right: 25px;
+}
+
+.closebutton:hover {
+    transform: scale(1.2);
+}
+
+.form input {
+    display: block;
+    /* box-shadow: var(--input-shadow); */
+    padding: 12px;
+    border-radius: 12px;
+    outline: 0;
+    width: calc(100% - 32px);
+    border: 0.1px solid var(--color-four);
+}
+
+.form input::placeholder {
     color: var(--color-two);
 }
 
-.resetButton:hover {
-    cursor: pointer;
-    color: var(--color-four);
-}
-
-.optionText {
-    text-align: center;
-    color: var(--color-two);
+.form button {
+    border: 0.1px solid var(--color-two);
+    padding: 8px;
+    background-color: #ded9ce;
+    border-radius: 8px;
 }
 
 .optionText span {
     text-decoration: underline;
-}
-
-.optionText span:hover {
     cursor: pointer;
-    color: var(--color-four);
-}
-
-/* Styles for tab button */
-
-.tabButton {
-    width: 50%;
-    height: 32px;
-    color: var(--color-one);
-    border: 1.5px solid var(--color-two);
-    background-color: var(--color-two);
-    margin-bottom: 10px;
-}
-
-.tabButton:hover {
-    cursor: pointer;
-    background-color: var(--color-four);
-}
-
-.tabButtonInactive.tabButton0 {
-    border-top-left-radius: 12.5px;
-    border-bottom-left-radius: 12.5px;
-}
-
-.tabButtonInactive.tabButton1 {
-    border-top-right-radius: 12.5px;
-    border-bottom-right-radius: 12.5px;
-}
-
-.tabButtonActive.tabButton0 {
-    font-weight: 600;
-    font-size: 1.25rem;
-    background-color: var(--color-four);
-    height: 35px;
-    border-top-left-radius: 12.5px;
-    border-top-right-radius: 5px;
-    border-bottom-left-radius: 12.5px;
-}
-
-.tabButtonActive.tabButton1 {
-    font-weight: 600;
-    font-size: 1.25rem;
-    background-color: var(--color-four);
-    height: 35px;
-    border-top-right-radius: 12.5px;
-    border-top-left-radius: 5px;
-    border-bottom-right-radius: 12.5px;
-}
-
-.errorText {
-    text-align: center;
-    color: var(--color-error);
 }

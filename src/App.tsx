@@ -11,13 +11,12 @@ import SignIn from "./components/SignIn";
 // import { getAuth } from "firebase/auth";
 // import { useAuthState } from "react-firebase-hooks/auth";
 
-
 function App() {
     // const auth = getAuth(app);
     // const [user] = useAuthState(auth);
     return (
         <>
-            <SignIn isOpen />
+            <SignIn />
         </>
     );
 }

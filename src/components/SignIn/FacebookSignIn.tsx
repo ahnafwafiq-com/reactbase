@@ -32,7 +32,7 @@ function FacebookSignIn() {
     return (
         <>
             <div className={Styles.loginIcon} onClick={onClick}>
-                <BsFacebook color="#4C4B16" size="36px"></BsFacebook>
+                <BsFacebook color="#4C4B16" size="32px"></BsFacebook>
             </div>
             {AuthError.error ? (
                 <ShowError

@@ -9,13 +9,13 @@ import Styles from "./SignIn.module.css";
 import { useState, useRef } from "react";
 import { CgClose } from "react-icons/cg";
 
-function SignIn({ isOpen }: { isOpen: boolean }) {
+function SignIn() {
     const dialogRef = useRef<HTMLDialogElement>(null);
     // 0 = Sign In
     // 1 = Sign Up
     const [isSignUp, setWindow] = useState<boolean>(false);
     return (
-        <dialog ref={dialogRef} open={isOpen} className={Styles.signInModal}>
+        <dialog open className={Styles.signInModal}>
             <div
                 className={Styles.closebutton}
                 onClick={() => dialogRef.current?.close()}

@@ -29,7 +29,7 @@ function GoogleSignIn() {
     return (
         <>
             <div className={Styles.loginIcon} onClick={onClick}>
-                <BsGoogle color="#4C4B16" size="36px"></BsGoogle>
+                <BsGoogle color="#4C4B16" size="32px"></BsGoogle>
             </div>
             {AuthError.error ? (
                 <ShowError

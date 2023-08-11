@@ -29,7 +29,7 @@ function GithubSignIn() {
     return (
         <>
             <div className={Styles.loginIcon} onClick={onClick}>
-                <BsGithub color="4C4B16" size="36px"></BsGithub>
+                <BsGithub color="4C4B16" size="32px"></BsGithub>
             </div>
             {AuthError.error ? (
                 <ShowError

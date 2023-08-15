@@ -78,7 +78,7 @@ function SignIn({ isOpen, close, window }: Props) {
                             setAuthError={setAuthError}
                             startLoading={() => setLoading(true)}
                             stopLoading={() => setLoading(false)}
-                            switchTab={(num) => setWindow(num)}
+                            switchTab={setWindow}
                         />
                     ) : (
                         <ResetPassword

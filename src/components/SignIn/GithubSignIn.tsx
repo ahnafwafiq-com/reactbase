@@ -1,29 +1,40 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getAuth, GithubAuthProvider, signInWithPopup } from "firebase/auth";
 import app from "../../Firebase-config";
 import { BsGithub } from "react-icons/bs";
-import { useState } from "react";
-import ShowError from "../Error";
 import Styles from "./SignIn.module.css";
+import { produce } from "immer";
 
-function GithubSignIn() {
-    const [AuthError, setAuthError] = useState({
-        error: false,
-        code: "",
-        message: "",
-    });
-    const onClick = () => {
+interface Props {
+    startLoading: () => void;
+    stopLoading: () => void;
+    setAuthError: React.Dispatch<
+        React.SetStateAction<{
+            error: boolean;
+            code: string;
+            message: string;
+            unchangedMessage: string;
+        }>
+    >;
+}
+
+function GithubSignIn({ startLoading, stopLoading, setAuthError }: Props) {
+    const onClick = async () => {
+        startLoading();
         const auth = getAuth(app);
         const provider = new GithubAuthProvider();
         try {
-            signInWithPopup(auth, provider);
+            await signInWithPopup(auth, provider);
+            stopLoading();
         } catch (e: any) {
-            const code = e.code;
-            const msg = e.message;
-            setAuthError({
-                error: true,
-                code: code,
-                message: msg,
-            });
+            stopLoading();
+            setAuthError(
+                produce((draft) => {
+                    draft.error = true;
+                    draft.code = e.code;
+                    draft.message = e.message;
+                }),
+            );
         }
     };
     return (
@@ -31,16 +42,6 @@ function GithubSignIn() {
             <div className={Styles.loginIcon} onClick={onClick}>
                 <BsGithub color="4C4B16" size="32px"></BsGithub>
             </div>
-            {AuthError.error ? (
-                <ShowError
-                    onClose={() =>
-                        setAuthError({ error: false, code: "", message: "" })
-                    }
-                    code={AuthError.code}
-                >
-                    {AuthError.message}
-                </ShowError>
-            ) : null}
         </>
     );
 }

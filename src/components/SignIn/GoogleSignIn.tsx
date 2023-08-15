@@ -1,29 +1,40 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import app from "../../Firebase-config";
 import { BsGoogle } from "react-icons/bs";
-import { useState } from "react";
-import ShowError from "../Error";
 import Styles from "./SignIn.module.css";
+import { produce } from "immer";
 
-function GoogleSignIn() {
-    const [AuthError, setAuthError] = useState({
-        error: false,
-        code: "",
-        message: "",
-    });
+interface Props {
+    startLoading: () => void;
+    stopLoading: () => void;
+    setAuthError: React.Dispatch<
+        React.SetStateAction<{
+            error: boolean;
+            code: string;
+            message: string;
+            unchangedMessage: string;
+        }>
+    >;
+}
+
+function GoogleSignIn({ startLoading, stopLoading, setAuthError }: Props) {
     async function onClick() {
+        startLoading();
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
         try {
             await signInWithPopup(auth, provider);
+            stopLoading();
         } catch (e: any) {
-            const code = e.code;
-            const msg = e.message;
-            setAuthError({
-                error: true,
-                code: code,
-                message: msg,
-            });
+            stopLoading();
+            setAuthError(
+                produce((draft) => {
+                    draft.error = true;
+                    draft.message = e.message;
+                    draft.code = e.code;
+                }),
+            );
         }
     }
     return (
@@ -31,16 +42,6 @@ function GoogleSignIn() {
             <div className={Styles.loginIcon} onClick={onClick}>
                 <BsGoogle color="#4C4B16" size="32px"></BsGoogle>
             </div>
-            {AuthError.error ? (
-                <ShowError
-                    code={AuthError.code}
-                    onClose={() =>
-                        setAuthError({ error: false, code: "", message: "" })
-                    }
-                >
-                    {AuthError.message}
-                </ShowError>
-            ) : null}
         </>
     );
 }

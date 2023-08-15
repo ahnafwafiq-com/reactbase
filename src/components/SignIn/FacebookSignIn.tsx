@@ -1,30 +1,37 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import app from "../../Firebase-config";
 import { getAuth, FacebookAuthProvider, signInWithPopup } from "firebase/auth";
 import { BsFacebook } from "react-icons/bs";
-import { useState } from "react";
-import ShowError from "../Error";
 import { produce } from "immer";
 import Styles from "./SignIn.module.css";
 
-function FacebookSignIn() {
-    const [AuthError, setAuthError] = useState({
-        error: false,
-        code: "",
-        message: "",
-    });
-    const onClick = () => {
+interface Props {
+    startLoading: () => void;
+    stopLoading: () => void;
+    setAuthError: React.Dispatch<
+        React.SetStateAction<{
+            error: boolean;
+            code: string;
+            message: string;
+            unchangedMessage: string;
+        }>
+    >;
+}
+
+function FacebookSignIn({ startLoading, stopLoading, setAuthError }: Props) {
+    const onClick = async () => {
+        startLoading();
         const auth = getAuth(app);
         const provider = new FacebookAuthProvider();
         try {
-            signInWithPopup(auth, provider);
+            await signInWithPopup(auth, provider);
+            stopLoading();
         } catch (e: any) {
-            const code = e.code;
-            const msg = e.message;
             setAuthError(
                 produce((draft) => {
                     draft.error = true;
-                    draft.code = code;
-                    draft.message = msg;
+                    draft.code = e.code;
+                    draft.message = e.message;
                 }),
             );
         }
@@ -34,16 +41,6 @@ function FacebookSignIn() {
             <div className={Styles.loginIcon} onClick={onClick}>
                 <BsFacebook color="#4C4B16" size="32px"></BsFacebook>
             </div>
-            {AuthError.error ? (
-                <ShowError
-                    code={AuthError.code || ""}
-                    onClose={() =>
-                        setAuthError({ error: false, code: "", message: "" })
-                    }
-                >
-                    {AuthError.message}
-                </ShowError>
-            ) : null}
         </>
     );
 }

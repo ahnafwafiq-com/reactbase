@@ -1,23 +1,33 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getAuth, TwitterAuthProvider, signInWithPopup } from "firebase/auth";
 import app from "../../Firebase-config";
 import { BsTwitter } from "react-icons/bs";
 import { produce } from "immer";
-import { useState } from "react";
-import ShowError from "../Error";
 import Styles from "./SignIn.module.css";
 
-function TwitterSignIn() {
-    const [AuthError, setAuthError] = useState({
-        error: false,
-        code: "",
-        message: "",
-    });
-    const onClick = () => {
+interface Props {
+    startLoading: () => void;
+    stopLoading: () => void;
+    setAuthError: React.Dispatch<
+        React.SetStateAction<{
+            error: boolean;
+            code: string;
+            message: string;
+            unchangedMessage: string;
+        }>
+    >;
+}
+
+function TwitterSignIn({ startLoading, stopLoading, setAuthError }: Props) {
+    const onClick = async () => {
+        startLoading();
         const auth = getAuth(app);
         const provider = new TwitterAuthProvider();
         try {
-            signInWithPopup(auth, provider);
+            await signInWithPopup(auth, provider);
+            stopLoading();
         } catch (e: any) {
+            stopLoading();
             const code = e.code;
             const msg = e.message;
             setAuthError(
@@ -32,16 +42,6 @@ function TwitterSignIn() {
     return (
         <div className={Styles.loginIcon} onClick={onClick}>
             <BsTwitter color="#4C4B16" size="32px"></BsTwitter>
-            {AuthError.error ? (
-                <ShowError
-                    code={AuthError.code}
-                    onClose={() =>
-                        setAuthError({ error: false, code: "", message: "" })
-                    }
-                >
-                    {AuthError.message}
-                </ShowError>
-            ) : null}
         </div>
     );
 }

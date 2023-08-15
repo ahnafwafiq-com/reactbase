@@ -4,6 +4,7 @@ import "normalize.css";
 import { useState } from "react";
 // Importing External Components
 import SignIn from "./components/SignIn";
+// import { getAuth } from "firebase/auth";
 // import TodoList from "./components/TodoList";
 
 // Importing Firebase features
@@ -12,9 +13,17 @@ import SignIn from "./components/SignIn";
 // import { useAuthState } from "react-firebase-hooks/auth";
 
 function App() {
+    const params = new URLSearchParams(window.location.search);
     const [showSignIn, setShowSignIn] = useState<boolean>(true);
-
-    // const auth = getAuth(app);
+    if (params.get("mode") === "resetPassword") {
+        return (
+            <SignIn
+                window={2}
+                isOpen={showSignIn}
+                close={() => setShowSignIn(false)}
+            />
+        );
+    }
     // const [user] = useAuthState(auth);
     return (
         <>

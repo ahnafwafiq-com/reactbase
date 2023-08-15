@@ -91,6 +91,10 @@
     background-color: #5e5d2d;
 }
 
+button {
+    cursor: pointer;
+}
+
 .forgotButton,
 .resetButton {
     border: 0;
@@ -121,4 +125,32 @@
 .activeTab {
     background-color: var(--color-two);
     color: var(--color-one);
+}
+
+.loadingDiv {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 69;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 70;
+    background-color: var(--color-four);
+    opacity: 0.5;
+    width: 100vw;
+    height: 100lvh;
+}
+
+.atomDiv {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 96;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 70;
+    width: 100vw;
+    height: 100lvh;
 }

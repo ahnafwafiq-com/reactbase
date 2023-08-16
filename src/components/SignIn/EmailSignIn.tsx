@@ -6,7 +6,7 @@ import Styles from "./SignIn.module.css";
 import { produce } from "immer";
 
 interface Props {
-    switchTab: React.Dispatch<React.SetStateAction<number>>;
+    switchTab: React.Dispatch<React.SetStateAction<0 | 1 | 2>>;
     startLoading: () => void;
     stopLoading: () => void;
     setAuthError: React.Dispatch<

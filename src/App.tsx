@@ -5,7 +5,7 @@ import { useState } from "react";
 // Importing External Components
 import SignIn from "./components/SignIn";
 // import { getAuth } from "firebase/auth";
-// import TodoList from "./components/TodoList";
+import EditAccount from "./components/EditAccount";
 
 // Importing Firebase features
 // import app from "./Firebase-config";
@@ -14,7 +14,7 @@ import SignIn from "./components/SignIn";
 
 function App() {
     const params = new URLSearchParams(window.location.search);
-    const [showSignIn, setShowSignIn] = useState<boolean>(true);
+    const [showSignIn, setShowSignIn] = useState<boolean>(false);
     if (params.get("mode") === "resetPassword") {
         return (
             <SignIn
@@ -27,6 +27,7 @@ function App() {
     // const [user] = useAuthState(auth);
     return (
         <>
+            <EditAccount />
             <SignIn
                 window={1}
                 isOpen={showSignIn}

@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    sendEmailVerification,
+} from "firebase/auth";
 import { FormEvent, useRef } from "react";
 // import app from "../../Firebase-config";
 import { produce } from "immer";
@@ -36,7 +40,7 @@ function EmailSignUp({
         e.preventDefault();
         startLoading();
         // Getting the Auth object
-        const auth = getAuth();
+        let auth = getAuth();
 
         //Getting the values from the input fields
         const email = emailRef.current?.value;
@@ -79,6 +83,10 @@ function EmailSignUp({
             // Creating a new user using Firebase Auth
             try {
                 await createUserWithEmailAndPassword(auth, email, password);
+                auth = getAuth();
+                if (auth.currentUser) {
+                    sendEmailVerification(auth.currentUser);
+                }
                 stopLoading();
             } catch (e: any) {
                 stopLoading();

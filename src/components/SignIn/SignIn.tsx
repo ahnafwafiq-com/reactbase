@@ -36,7 +36,7 @@ function SignIn({ isOpen, close, window }: Props) {
     // 0 = Sign Up
     // 1 = Sign In
     // 2 = Reset Password
-    const [Window, setWindow] = useState<number>(window);
+    const [Window, setWindow] = useState<0 | 1 | 2>(window);
     return (
         <>
             <dialog open={isOpen} className={Styles.signInModal}>

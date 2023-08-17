@@ -4,7 +4,7 @@ import "normalize.css";
 import { useState } from "react";
 // Importing External Components
 import SignIn from "./components/SignIn";
-// import { getAuth } from "firebase/auth";
+// import { getAuth, onAuthStateChanged } from "firebase/auth";
 import EditAccount from "./components/EditAccount";
 
 // Importing Firebase features

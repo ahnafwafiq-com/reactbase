@@ -5,9 +5,9 @@
     background-color: var(--color-one);
     border-radius: 25px;
     border: 0.1px solid var(--color-four);
-    box-shadow: 0px 0px 50px 0px rgba(0, 0, 0, 0.75);
-    -webkit-box-shadow: 0px 0px 50px 0px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 0px 0px 50px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 50px 0px rgba(76, 75, 25, 0.75);
+    -webkit-box-shadow: 0px 0px 50px 0px rgba(76, 75, 25, 0.75);
+    -moz-box-shadow: 0px 0px 50px 0px rgba(76, 75, 25, 0.75);
     margin-top: 20px;
 }
 

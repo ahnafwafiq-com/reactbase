@@ -1,21 +1,24 @@
 @import url("../../CSS/variables.css");
 .displayPicture {
-    width: 10em;
-    aspect-ratio: 1;
+    width: 10rem;
+    height: 10rem;
     margin-top: 30px;
     object-fit: cover;
     border-radius: 50%;
     position: relative;
     left: calc(50% - (10rem / 2));
+    box-shadow: 0px 0px 50px 0px rgba(76, 75, 25, 0.75);
+    -webkit-box-shadow: 0px 0px 50px 0px rgba(76, 75, 25, 0.75);
+    -moz-box-shadow: 0px 0px 50px 0px rgba(76, 75, 25, 0.75);
 }
 .editAccount {
     width: clamp(20px, 90vw, 500px);
     background-color: var(--color-one);
     border-radius: 25px;
     border: 0.1px solid var(--color-four);
-    box-shadow: 0px 0px 50px 0px rgba(0, 0, 0, 0.75);
-    -webkit-box-shadow: 0px 0px 50px 0px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 0px 0px 50px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 50px 0px rgba(76, 75, 25, 0.75);
+    -webkit-box-shadow: 0px 0px 50px 0px rgba(76, 75, 25, 0.75);
+    -moz-box-shadow: 0px 0px 50px 0px rgba(76, 75, 25, 0.75);
     margin-top: 20px;
 }
 .editAccount h2 {
@@ -35,7 +38,7 @@
     background-color: #5e5d2d;
 }
 
-.deleteAccDiv {
+.deleteAccBtn {
     padding: 8px;
     background-color: var(--color-error);
     border: 0.2px solid #eee;
@@ -43,10 +46,20 @@
     color: var(--color-one);
 }
 
-.deleteAccDiv:hover {
+.deleteAccBtn:hover {
     background-color: #e62e2e;
 }
 
 .connectionDiv button {
-    display: block;
+    width: 170px;
+    padding: 4px;
+    margin-right: 5px;
+    color: var(--color-two);
+    border: 0.1px solid var(--color-two);
+    border-radius: 4px;
+    background-color: #f8f2e8;
+}
+
+.connectionDiv button:hover {
+    background-color: #ded9ce;
 }

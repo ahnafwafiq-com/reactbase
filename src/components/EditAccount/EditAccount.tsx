@@ -4,8 +4,9 @@ import {
     getAuth,
     signOut,
     updateProfile,
-    updateEmail,
+    // updateEmail,
     onAuthStateChanged,
+    verifyBeforeUpdateEmail,
 } from "firebase/auth";
 // import { ref, getStorage } from "firebase/storage";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -15,15 +16,15 @@ import AtomicSpinner from "atomic-spinner";
 import ShowError from "../Error";
 import { produce } from "immer";
 import LoadingStyles from "../SignIn/SignIn.module.css";
-import { RiDeleteBinLine } from "react-icons/ri";
-
-// Provider icons
-import { BsGoogle } from "react-icons/bs";
-import { BsFacebook } from "react-icons/bs";
-import { BsGithub } from "react-icons/bs";
-import { BsTwitter } from "react-icons/bs";
+import { RxExit } from "react-icons/rx";
+import LinkGoogle from "./LinkGoogle";
+import LinkGithub from "./LinkGithub";
+import LinkTwitter from "./LinkTwitter";
+import LinkFacebook from "./LinkFacebook";
+import DeleteAccount from "./DeleteAccount";
 
 export default function EditAccount() {
+    const [reRender, triggerReRender] = useState(0);
     const defaultDpUrl =
         "https://s3.ap-southeast-1.amazonaws.com/cdn.ahnafwafiq.com/user.jpg";
     // console.log(auth.currentUser?.providerData);
@@ -36,7 +37,7 @@ export default function EditAccount() {
         unchangedMessage: "",
     });
     const auth = getAuth();
-    const user = useAuthState(auth);
+    const [user] = useAuthState(auth);
     const [providers, setProviders] = useState({
         password: false,
         google: false,
@@ -44,27 +45,28 @@ export default function EditAccount() {
         twitter: false,
         github: false,
     });
+    // Getting provider info
     useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                user.providerData.forEach((user) => {
-                    if (user.providerId === "password") {
+        onAuthStateChanged(auth, (newUser) => {
+            if (newUser) {
+                newUser.providerData.forEach((provider) => {
+                    if (provider.providerId === "password") {
                         setProviders((prev) => {
                             return { ...prev, password: true };
                         });
-                    } else if (user.providerId === "google.com") {
+                    } else if (provider.providerId === "google.com") {
                         setProviders((prev) => {
                             return { ...prev, google: true };
                         });
-                    } else if (user.providerId === "facebook.com") {
+                    } else if (provider.providerId === "facebook.com") {
                         setProviders((prev) => {
                             return { ...prev, facebook: true };
                         });
-                    } else if (user.providerId === "github.com") {
+                    } else if (provider.providerId === "github.com") {
                         setProviders((prev) => {
                             return { ...prev, github: true };
                         });
-                    } else if (user.providerId === "twitter.com") {
+                    } else if (provider.providerId === "twitter.com") {
                         setProviders((prev) => {
                             return { ...prev, twitter: true };
                         });
@@ -72,8 +74,7 @@ export default function EditAccount() {
                 });
             }
         });
-    }, []);
-    console.log(providers);
+    }, [reRender]);
 
     const displayNameRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLInputElement>(null);
@@ -82,10 +83,10 @@ export default function EditAccount() {
             <dialog open className={Styles.editAccount}>
                 <img
                     className={Styles.displayPicture}
-                    src={user[0]?.photoURL || defaultDpUrl}
+                    src={user?.photoURL || defaultDpUrl}
                     alt="User Profile Picture"
                 />
-                <h2>Hello, {user[0]?.displayName}</h2>
+                <h2>Hello, {user?.displayName}</h2>
                 <h4>Edit Account Details:</h4>
                 <div className={Styles.editingDiv}>
                     <form
@@ -119,7 +120,7 @@ export default function EditAccount() {
                             type="text"
                             id="displayname"
                             name="displayname"
-                            placeholder={user[0]?.displayName || ""}
+                            placeholder={user?.displayName || ""}
                             required
                         />
                         <button type="submit">Save</button>
@@ -131,7 +132,7 @@ export default function EditAccount() {
                             const newEmail = emailRef.current?.value;
                             if (newEmail && auth.currentUser) {
                                 try {
-                                    await updateEmail(
+                                    await verifyBeforeUpdateEmail(
                                         auth.currentUser,
                                         newEmail,
                                     );
@@ -155,7 +156,7 @@ export default function EditAccount() {
                             type="text"
                             id="email"
                             name="email"
-                            placeholder={user[0]?.email || ""}
+                            placeholder={user?.email || ""}
                             required
                         />
                         <button type="submit">Save</button>
@@ -163,37 +164,42 @@ export default function EditAccount() {
                 </div>
                 <h4>Connect other login-in methods:</h4>
                 <div className={Styles.connectionDiv}>
-                    <button>
-                        <BsGoogle /> Connect Google
-                    </button>
-                    <div>
-                        {providers.google ? "Connected" : "Not Connected"}
-                    </div>
-                    <button>
-                        <BsGithub /> Connect Github
-                    </button>
-                    <div>
-                        {providers.github ? "Connected" : "Not Connected"}
-                    </div>
-
-                    <button>
-                        <BsFacebook /> Connect Facebook
-                    </button>
-                    <div>
-                        {providers.facebook ? "Connected" : "Not Connected"}
-                    </div>
-
-                    <button>
-                        <BsTwitter /> Connect Twitter
-                    </button>
-                    <div>
-                        {providers.twitter ? "Connected" : "Not Connected"}
-                    </div>
+                    <table>
+                        <LinkGoogle
+                            connected={providers.google}
+                            startLoading={() => setLoading(true)}
+                            stopLoading={() => setLoading(false)}
+                            setError={setErrorObj}
+                            reRender={() => triggerReRender(reRender + 1)}
+                        />
+                        <LinkGithub
+                            connected={providers.github}
+                            startLoading={() => setLoading(true)}
+                            stopLoading={() => setLoading(false)}
+                            setError={setErrorObj}
+                            reRender={() => triggerReRender(reRender + 1)}
+                        />
+                        <LinkFacebook
+                            connected={providers.facebook}
+                            startLoading={() => setLoading(true)}
+                            stopLoading={() => setLoading(false)}
+                            setError={setErrorObj}
+                            reRender={() => triggerReRender(reRender + 1)}
+                        />
+                        <LinkTwitter
+                            connected={providers.twitter}
+                            startLoading={() => setLoading(true)}
+                            stopLoading={() => setLoading(false)}
+                            setError={setErrorObj}
+                            reRender={() => triggerReRender(reRender + 1)}
+                        />
+                    </table>
                 </div>
-
-                <button className={Styles.deleteAccDiv}>
-                    <RiDeleteBinLine /> Delete Account
-                </button>
+                <DeleteAccount
+                    startLoading={() => setLoading(true)}
+                    stopLoading={() => setLoading(false)}
+                    setError={setErrorObj}
+                />
                 <button
                     onClick={async () => {
                         setLoading(true);
@@ -202,6 +208,8 @@ export default function EditAccount() {
                     }}
                     className={Styles.signOutBtn}
                 >
+                    <RxExit />
+                    <span> </span>
                     Sign Out
                 </button>
                 <Loading show={isLoading} />

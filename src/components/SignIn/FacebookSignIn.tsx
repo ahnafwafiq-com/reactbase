@@ -35,6 +35,7 @@ function FacebookSignIn({ startLoading, stopLoading, setAuthError }: Props) {
                 }),
             );
         }
+        stopLoading();
     };
     return (
         <>

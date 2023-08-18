@@ -60,6 +60,7 @@ function LinkTwitter({
                                 );
                             }
                         }
+                        stopLoading();
                     }}
                 >
                     <BsTwitter /> Connect Twitter

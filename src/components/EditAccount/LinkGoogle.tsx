@@ -59,6 +59,7 @@ function LinkGoogle({
                                 );
                             }
                         }
+                        stopLoading();
                     }}
                 >
                     <BsGoogle /> Connect Google

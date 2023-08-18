@@ -36,6 +36,7 @@ function GithubSignIn({ startLoading, stopLoading, setAuthError }: Props) {
                 }),
             );
         }
+        stopLoading();
     };
     return (
         <>

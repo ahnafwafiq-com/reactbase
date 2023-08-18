@@ -114,6 +114,7 @@ export default function EditAccount() {
                                     );
                                 }
                             }
+                            setLoading(false);
                         }}
                     >
                         <label htmlFor="displayname">Display Name: </label>
@@ -153,6 +154,7 @@ export default function EditAccount() {
                                     );
                                 }
                             }
+                            setLoading(false);
                         }}
                     >
                         <label htmlFor="email">Email: </label>
@@ -174,12 +176,24 @@ export default function EditAccount() {
                         onClick={async () => {
                             if (auth.currentUser && auth.currentUser.email) {
                                 setLoading(true);
-                                await sendPasswordResetEmail(
-                                    auth,
-                                    auth.currentUser.email,
-                                );
-                                setLoading(false);
+                                try {
+                                    await sendPasswordResetEmail(
+                                        auth,
+                                        auth.currentUser.email,
+                                    );
+                                    setLoading(false);
+                                } catch (e: any) {
+                                    setLoading(false);
+                                    setErrorObj(
+                                        produce((draft) => {
+                                            draft.error = true;
+                                            draft.message = e.message;
+                                            draft.code = e.code;
+                                        }),
+                                    );
+                                }
                             }
+                            setLoading(false);
                         }}
                     >
                         <BiEditAlt /> Send email to change password

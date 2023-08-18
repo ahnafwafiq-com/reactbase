@@ -63,3 +63,88 @@
 .connectionDiv button:hover {
     background-color: #ded9ce;
 }
+
+.editingDiv input {
+    display: block;
+    padding: 12px;
+    border-radius: 12px;
+    margin-top: 12px;
+    outline: 0;
+    width: calc(100% - 32px);
+    border: 0.1px solid var(--color-four);
+}
+
+.editAccount label {
+    font-size: 105%;
+}
+
+.editAccount h4 {
+    font-size: 110%;
+}
+
+.editingDiv button {
+    margin-top: 8px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    border: 0.1px solid var(--color-four);
+    width: calc(100% - 10px);
+    padding: 5px;
+    color: var(--color-one);
+    background-color: var(--color-two);
+}
+
+.editingDiv button:hover {
+    background-color: #5e5d2d;
+}
+
+.editingDiv input:focus {
+    box-shadow: var(--input-shadow);
+}
+
+.editingDiv input::placeholder {
+    color: var(--color-two);
+}
+
+.deleteAccDialog {
+    width: clamp(20px, 90vw, 500px);
+    background-color: var(--color-one);
+    border-radius: 25px;
+    border: 0.1px solid var(--color-four);
+    box-shadow: 0px 0px 50px 0px rgba(76, 75, 25, 0.75);
+    -webkit-box-shadow: 0px 0px 50px 0px rgba(76, 75, 25, 0.75);
+    -moz-box-shadow: 0px 0px 50px 0px rgba(76, 75, 25, 0.75);
+    margin-top: 10%;
+}
+
+.deleteAccDialog h3 {
+    color: var(--color-error);
+}
+
+.deleteAccDialog button {
+    width: calc(50% - 4px);
+    padding: 6px;
+    margin: 2px;
+    border-radius: 8px;
+    border: 0.1px solid var(--color-two);
+}
+
+.deleteAccDialog .btnYes {
+    background-color: var(--color-error);
+    color: var(--color-one);
+}
+
+.deleteAccDialog input {
+    display: block;
+    padding: 12px;
+    border-radius: 12px;
+    margin-top: 12px;
+    outline: 0;
+    width: calc(100% - 32px);
+    border: 0.1px solid var(--color-four);
+}
+
+.yesBtn {
+    background-color: var(--color-error);
+    color: var(--color-one);
+    width: calc(100% - 9px) !important;
+}

@@ -4,10 +4,12 @@ import {
     getAuth,
     signOut,
     updateProfile,
-    // updateEmail,
+    sendPasswordResetEmail,
     onAuthStateChanged,
     verifyBeforeUpdateEmail,
 } from "firebase/auth";
+import { BiEditAlt } from "react-icons/bi";
+import { FiSave, FiSend } from "react-icons/fi";
 // import { ref, getStorage } from "firebase/storage";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Styles from "./EditAccount.module.css";
@@ -123,7 +125,10 @@ export default function EditAccount() {
                             placeholder={user?.displayName || ""}
                             required
                         />
-                        <button type="submit">Save</button>
+                        <button type="submit">
+                            {" "}
+                            <FiSave /> Save
+                        </button>
                     </form>
                     <form
                         onSubmit={async (e: FormEvent) => {
@@ -159,8 +164,26 @@ export default function EditAccount() {
                             placeholder={user?.email || ""}
                             required
                         />
-                        <button type="submit">Save</button>
+                        <button type="submit">
+                            {" "}
+                            <FiSend /> Send Verification Email
+                        </button>
                     </form>
+                    <label>Change Account Password:</label>
+                    <button
+                        onClick={async () => {
+                            if (auth.currentUser && auth.currentUser.email) {
+                                setLoading(true);
+                                await sendPasswordResetEmail(
+                                    auth,
+                                    auth.currentUser.email,
+                                );
+                                setLoading(false);
+                            }
+                        }}
+                    >
+                        <BiEditAlt /> Send email to change password
+                    </button>
                 </div>
                 <h4>Connect other login-in methods:</h4>
                 <div className={Styles.connectionDiv}>

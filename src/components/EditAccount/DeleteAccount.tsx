@@ -38,6 +38,20 @@ function DeleteAccount({ startLoading, stopLoading, setError }: Props) {
         const auth = getAuth();
         if (
             consentRef.current &&
+            consentRef.current.value !== "deleteaccount"
+        ) {
+            stopLoading();
+            setError(
+                produce((draft) => {
+                    draft.error = true;
+                    draft.code = "auth/incorrect-deleteion-code";
+                    draft.unchangedMessage = "Please enter the correct code";
+                }),
+            );
+            return;
+        }
+        if (
+            consentRef.current &&
             auth.currentUser &&
             consentRef?.current.value === "deleteaccount"
         ) {
@@ -91,7 +105,7 @@ function DeleteAccount({ startLoading, stopLoading, setError }: Props) {
             >
                 <RiDeleteBinLine /> Delete Account
             </button>
-            <dialog ref={dialogRef}>
+            <dialog ref={dialogRef} className={Styles.deleteAccDialog}>
                 {consentScreen ? (
                     <>
                         <p>
@@ -103,7 +117,9 @@ function DeleteAccount({ startLoading, stopLoading, setError }: Props) {
                                 type="text"
                                 placeholder="Type here"
                             />
-                            <button type="submit">Delete my Account</button>
+                            <button type="submit" className={Styles.yesBtn}>
+                                <RiDeleteBinLine /> Delete my Account
+                            </button>
                         </form>
                         <button onClick={() => setConsentScreen(0)}>
                             Back
@@ -121,7 +137,7 @@ function DeleteAccount({ startLoading, stopLoading, setError }: Props) {
                             onClick={() => setConsentScreen(1)}
                             className={Styles.btnYes}
                         >
-                            Yes, delete my account.
+                            <RiDeleteBinLine /> Yes, delete my account.
                         </button>
                         <button onClick={() => dialogRef.current?.close()}>
                             No, close

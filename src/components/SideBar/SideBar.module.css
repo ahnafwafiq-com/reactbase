@@ -1,0 +1,28 @@
+.sidebarOpened,
+.sidebarClosed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: clamp(230px, 100vw, 300px);
+    background-color: var(--color-two);
+}
+
+.branding {
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+}
+
+.logo {
+    position: relative;
+    left: 2px;
+    top: 2px;
+    width: 60px;
+    aspect-ratio: 1;
+}
+
+.branding h1 {
+    display: inline-block;
+    color: #f4a73b;
+}

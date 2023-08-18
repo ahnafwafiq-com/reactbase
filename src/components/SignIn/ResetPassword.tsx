@@ -146,8 +146,12 @@ function ResetPassword({
         if (newPassword) {
             try {
                 await confirmPasswordReset(auth, oobCode, newPassword);
+                const currentURL = window.location.href.split("?")[0];
+                history.replaceState({}, document.title, currentURL);
                 stopLoading();
             } catch (e: any) {
+                const currentURL = window.location.href.split("?")[0];
+                history.replaceState({}, document.title, currentURL);
                 stopLoading();
                 setErrors(e);
             }

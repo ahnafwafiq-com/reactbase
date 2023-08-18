@@ -21,7 +21,7 @@ function ShowError({ code, onClose, unchangedMessage }: Props) {
     } else if (code === "auth/internal-error") {
         errorMessage =
             "Auth Error: Unexpected internal error occured. Please try again later";
-    } else if (code === " auth/wrong-password") {
+    } else if (code === "auth/wrong-password") {
         errorMessage =
             "Auth Rrror: Incorrect password provided. Please try again";
     } else if (code === "auth/email-already-in-use") {
@@ -29,6 +29,9 @@ function ShowError({ code, onClose, unchangedMessage }: Props) {
     } else if (code === "auth/account-exists-with-different-credential") {
         errorMessage =
             "Auth Error: Account already exists with different credentials";
+    } else if (code === "auth/invalid-action-code") {
+        errorMessage =
+            "Auth Error: Invalid Verification Code. Please try again";
     } else {
         errorMessage = "Something went wrong. Please try again";
     }

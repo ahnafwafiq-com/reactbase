@@ -66,7 +66,7 @@ function SideBar() {
             {collections?.docs.map((todoCollection) => {
                 return (
                     <>
-                        <div>{todoCollection.name}</div>
+                        <div>{todoCollection.data.name}</div>
                     </>
                 );
             })}

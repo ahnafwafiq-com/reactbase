@@ -88,7 +88,11 @@ export default function EditAccount() {
                     src={user?.photoURL || defaultDpUrl}
                     alt="User Profile Picture"
                 />
-                <h2>Hello, {user?.displayName}</h2>
+                <h2>
+                    Hello,{" "}
+                    {user?.displayName ||
+                        user?.email?.split("@")[0].split("+")[0]}
+                </h2>
                 <h4>Edit Account Details:</h4>
                 <div className={Styles.editingDiv}>
                     <form

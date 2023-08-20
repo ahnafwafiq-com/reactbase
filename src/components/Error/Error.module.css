@@ -1,5 +1,3 @@
-@import url("../../CSS/variables.css");
-
 .errorDiv {
     position: fixed;
     bottom: 0;
@@ -28,5 +26,15 @@
 }
 
 .closeError:hover {
+    color: var(--color-one);
+}
+
+.contact {
+    position: absolute;
+    top: 10px;
+    right: calc(10px + 1.6rem + 8px);
+}
+
+.contact:hover {
     color: var(--color-one);
 }

@@ -1,18 +1,24 @@
 // Importing CSS files
 import "./CSS/App.css";
 import "normalize.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 // Importing External Components
 import SignIn from "./components/SignIn";
-import { getAuth, applyActionCode } from "firebase/auth";
 // import EditAccount from "./components/EditAccount";
 import SideBar from "./components/SideBar";
 import ShowError from "./components/Error/Error";
 import { produce } from "immer";
 
 // Importing Firebase features
-// import app from "./Firebase-config";
-// import { getAuth } from "firebase/auth";
+import { getAuth, applyActionCode } from "firebase/auth";
+import app from "./Firebase-config";
+import {
+    getFirestore,
+    collection,
+    addDoc,
+    serverTimestamp,
+    connectFirestoreEmulator,
+} from "firebase/firestore";
 // import { useAuthState } from "react-firebase-hooks/auth";
 
 function App() {
@@ -24,6 +30,21 @@ function App() {
         message: "",
         unchangedMessage: "",
     });
+
+    useEffect(() => {
+        const db = getFirestore(app);
+        connectFirestoreEmulator(db, "127.0.0.1", 8080);
+        const collectionsRef = collection(db, "/collections");
+        for (let i = 0; i < 5; i++) {
+            addDoc(collectionsRef, {
+                color: "#ffffff",
+                createdAt: serverTimestamp(),
+                name: `Test Collection ${Math.random()}`,
+                userId: "P2e61VI1dcaF8VBRcEL0vlv6REr2",
+            });
+        }
+    }, []);
+
     if (params.get("mode") === "resetPassword") {
         return (
             <SignIn

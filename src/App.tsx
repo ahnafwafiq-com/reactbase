@@ -14,7 +14,7 @@ import { getAuth, applyActionCode } from "firebase/auth";
 import {
     addDoc,
     collection,
-    connectFirestoreEmulator,
+    // connectFirestoreEmulator,
     getFirestore,
     serverTimestamp,
 } from "firebase/firestore";
@@ -22,7 +22,7 @@ import app from "./Firebase-config";
 
 function App() {
     const db = getFirestore(app);
-    connectFirestoreEmulator(db, "127.0.0.1", 8078);
+    // connectFirestoreEmulator(db, "127.0.0.1", 8078);
     useEffect(() => {
         const collectionsRef = collection(db, "collections");
         for (let i = 0; i < 10; i++) {

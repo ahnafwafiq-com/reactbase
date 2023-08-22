@@ -64,6 +64,8 @@ function ResetPassword({
         }
         stopLoading();
     };
+
+    // Handling submission of new password.
     const handleResetPassword = async (e: FormEvent) => {
         e.preventDefault();
         startLoading();
@@ -71,6 +73,14 @@ function ResetPassword({
         const newPasswordConfirmation = confirmPasswordRef.current?.value;
         const auth = getAuth(app);
         const oobCode = params.get("oobCode") || "";
+        const isValidOobCode = await verifyPasswordResetCode(auth, oobCode);
+        if (!isValidOobCode && errorRef.current) {
+            errorRef.current.innerText = "Password reset code is not valid.";
+            const currentURL = window.location.href.split("?")[0];
+            history.replaceState({}, document.title, currentURL);
+            stopLoading();
+            return;
+        }
 
         if (!newPassword && errorRef.current) {
             errorRef.current.innerText = "Provide a valid Password";
@@ -135,13 +145,6 @@ function ResetPassword({
                     );
                 }
             }
-        }
-        try {
-            await verifyPasswordResetCode(auth, oobCode);
-        } catch (e: any) {
-            stopLoading();
-            setErrors(e);
-            return;
         }
         if (newPassword) {
             try {

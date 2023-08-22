@@ -20,14 +20,31 @@
     color: var(--color-one);
     border-collapse: separate;
     border-spacing: 0 12px;
+    /* padding: 12px; */
     width: 100%;
 }
 
+.sidebarOpened h3,
+.sidebarClosed h3 {
+    margin: 10px;
+    margin-top: 30px;
+    font-size: 150%;
+    color: var(--color-one);
+}
+
+.todoCollection {
+    /* border: 1px solid var(--color-one); */
+    margin-bottom: 30px;
+    padding: 5px;
+    background-color: rgba(76, 75, 22, 0.1);
+}
+
 .todoCollection .colorCircle {
-    width: 16px;
+    width: 20px;
     aspect-ratio: 1;
     border-radius: 50%;
     background-color: #f4a73b;
+    margin-right: 10px;
 }
 
 .editButton {

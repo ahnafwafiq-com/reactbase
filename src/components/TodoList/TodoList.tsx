@@ -9,12 +9,12 @@ interface Todo {
     finished: boolean;
     created: Date;
 }
-interface Props {
-    items: Todo[];
-}
+// interface Props {
+//     items: Todo[];
+// }
 
-function TodoList({ items }: Props) {
-    const [TodoItems, setTodoItems] = useState(items);
+function TodoList() {
+    // const [TodoItems, setTodoItems] = useState(items);
     // const auth = getAuth(app);
     // auth.currentUser?.photoURL;
     const searchRef = useRef<HTMLInputElement>(null);

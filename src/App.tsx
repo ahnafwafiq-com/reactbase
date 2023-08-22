@@ -5,7 +5,8 @@ import { useEffect, useState } from "react";
 // Importing External Components
 import SignIn from "./components/SignIn";
 // import EditAccount from "./components/EditAccount";
-import SideBar from "./components/SideBar";
+// import SideBar from "./components/SideBar";
+import TodoList from "./components/TodoList";
 import ShowError from "./components/Error/Error";
 import { produce } from "immer";
 
@@ -76,7 +77,8 @@ function App() {
     return (
         <>
             {/* <EditAccount /> */}
-            <SideBar />
+            {/* <SideBar /> */}
+            <TodoList />
             <SignIn
                 window={1}
                 isOpen={showSignIn}

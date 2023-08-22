@@ -1,7 +1,7 @@
 // Importing CSS files
 import "./CSS/App.css";
 import "normalize.css";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 // Importing External Components
 import SignIn from "./components/SignIn";
 // import EditAccount from "./components/EditAccount";
@@ -11,17 +11,29 @@ import { produce } from "immer";
 
 // Importing Firebase features
 import { getAuth, applyActionCode } from "firebase/auth";
-import app from "./Firebase-config";
 import {
-    getFirestore,
-    collection,
     addDoc,
-    serverTimestamp,
+    collection,
     connectFirestoreEmulator,
+    getFirestore,
+    serverTimestamp,
 } from "firebase/firestore";
-// import { useAuthState } from "react-firebase-hooks/auth";
+import app from "./Firebase-config";
 
 function App() {
+    const db = getFirestore(app);
+    connectFirestoreEmulator(db, "127.0.0.1", 8078);
+    useEffect(() => {
+        const collectionsRef = collection(db, "collections");
+        for (let i = 0; i < 10; i++) {
+            addDoc(collectionsRef, {
+                name: `Test Collection ${Math.round(Math.random() * 10000)}`,
+                userId: "P2e61VI1dcaF8VBRcEL0vlv6REr2",
+                createdAt: serverTimestamp(),
+                color: "#ffffff",
+            });
+        }
+    });
     const params = new URLSearchParams(window.location.search);
     const [showSignIn, setShowSignIn] = useState<boolean>(false);
     const [ErrorObj, setErrorObj] = useState({
@@ -30,20 +42,6 @@ function App() {
         message: "",
         unchangedMessage: "",
     });
-
-    useEffect(() => {
-        const db = getFirestore(app);
-        connectFirestoreEmulator(db, "127.0.0.1", 8080);
-        const collectionsRef = collection(db, "/collections");
-        for (let i = 0; i < 5; i++) {
-            addDoc(collectionsRef, {
-                color: "#ffffff",
-                createdAt: serverTimestamp(),
-                name: `Test Collection ${Math.random()}`,
-                userId: "P2e61VI1dcaF8VBRcEL0vlv6REr2",
-            });
-        }
-    }, []);
 
     if (params.get("mode") === "resetPassword") {
         return (

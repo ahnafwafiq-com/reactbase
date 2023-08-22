@@ -1,5 +1,5 @@
 import Styles from "./Error.module.css";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { CgClose } from "react-icons/cg";
 import { BiSupport } from "react-icons/bi";
 
@@ -11,6 +11,7 @@ interface Props {
 }
 
 function ShowError({ code, onClose, unchangedMessage }: Props) {
+    const [support, showSupport] = useState(false);
     let errorMessage = "";
 
     if (code === "auth/network-request-failed") {
@@ -38,21 +39,46 @@ function ShowError({ code, onClose, unchangedMessage }: Props) {
     }
 
     return (
-        <div className={Styles.errorDiv}>
-            <div className={Styles.errorMsg}>
-                <b>Error:</b>{" "}
-                {unchangedMessage ? unchangedMessage : errorMessage}
+        <>
+            <div className={Styles.errorDiv}>
+                <div className={Styles.errorMsg}>
+                    <b>Error:</b>{" "}
+                    {unchangedMessage ? unchangedMessage : errorMessage}
+                </div>
+                <div className={Styles.code}>
+                    <b>Code:</b> {code}
+                </div>
+                <div
+                    onClick={() => showSupport(true)}
+                    className={Styles.contact}
+                    title="Contact Support"
+                >
+                    <BiSupport size="1.6rem" />
+                </div>
+                <div onClick={onClose} className={Styles.closeError}>
+                    <CgClose size="1.6rem"></CgClose>
+                </div>
             </div>
-            <div className={Styles.code}>
-                <b>Code:</b> {code}
-            </div>
-            <div className={Styles.contact} title="Contact Support">
-                <BiSupport size="1.6rem" />
-            </div>
-            <div onClick={onClose} className={Styles.closeError}>
-                <CgClose size="1.6rem"></CgClose>
-            </div>
-        </div>
+            <dialog open={support}>
+                <button onClick={() => showSupport(false)}>Close</button>
+                <button
+                    onClick={() =>
+                        window.open("mailto:support@app.ahnafwafiq.com")
+                    }
+                >
+                    Email Support
+                </button>
+                <button
+                    onClick={() =>
+                        window.open(
+                            "https://github.com/ahnafwafiq09/firebase-react/issues",
+                        )
+                    }
+                >
+                    Open an issue on Github
+                </button>
+            </dialog>
+        </>
     );
 }
 

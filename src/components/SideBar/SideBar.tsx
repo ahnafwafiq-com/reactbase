@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import Styles from "./SideBar.module.css";
-import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineClose, AiOutlineStar } from "react-icons/ai";
 import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import app from "../../Firebase-config";
@@ -10,32 +11,38 @@ import {
     query,
     where,
     collection,
-    QuerySnapshot,
+    QueryDocumentSnapshot,
     DocumentData,
 } from "firebase/firestore";
+import { BiEditAlt } from "react-icons/bi";
 
 function SideBar() {
     const [isOpen, setOpen] = useState(true);
     const auth = getAuth();
     const [user] = useAuthState(auth);
-    console.log(user?.uid);
     const [collections, setCollections] =
-        useState<QuerySnapshot<DocumentData>>();
+        useState<QueryDocumentSnapshot<DocumentData, DocumentData>[]>();
     useEffect(() => {
         const db = getFirestore(app);
-        const collectionsRef = collection(db, "collections");
-        if (!user?.uid) return;
+        const collectionsRef = collection(db, "/collections");
+        // if (!user?.uid) return;
 
         try {
-            const q = query(collectionsRef, where("userId", "==", user.uid));
-            getDocs(q).then((collections) => {
-                setCollections(collections);
-            });
+            const q = query(
+                collectionsRef,
+                where("userId", "==", "P2e61VI1dcaF8VBRcEL0vlv6REr2"),
+            );
+            getDocs(q)
+                .then((Collections) => {
+                    setCollections(Collections.docs);
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
         } catch (e) {
             console.log(e);
         }
-        console.log(collections);
-    }, [user]);
+    }, []);
     return (
         <div className={isOpen ? Styles.sidebarOpened : Styles.sidebarClosed}>
             <div className={Styles.branding}>
@@ -54,7 +61,7 @@ function SideBar() {
                 <img
                     src={
                         user?.photoURL ||
-                        "https://s3.ap-southeast-1.amazonaws.com/cdn.ahnafwafiq.com/user.jpg"
+                        "https://reactbase.ahnafwafiq.com/user.jpg"
                     }
                     alt="User Profile Picture"
                     className={Styles.userPhoto}
@@ -63,13 +70,31 @@ function SideBar() {
                 {user?.displayName || user?.email?.split("@")[0].split("+")[0]}
             </div>
             <hr />
-            {collections?.docs.map((todoCollection) => {
-                return (
-                    <>
-                        <div>{todoCollection.data.name}</div>
-                    </>
-                );
-            })}
+            <div>
+                <h3 className={Styles.h3}>Collections:</h3>
+                <table className={Styles.todoCollections}>
+                    {collections?.map((todoCollection) => {
+                        return (
+                            <tr
+                                key={todoCollection.get("id")}
+                                className={Styles.todoCollection}
+                            >
+                                <td>
+                                    <div className={Styles.colorCircle}></div>
+                                </td>
+                                <td>
+                                    <div>{todoCollection.get("name")}</div>
+                                </td>
+                                <td className={Styles.editButton}>
+                                    <div>
+                                        <BiEditAlt size="20px" />
+                                    </div>
+                                </td>
+                            </tr>
+                        );
+                    })}
+                </table>
+            </div>
             <hr />
             <footer className={Styles.sidebarFooter}>
                 <div className={Styles.branding}>
@@ -94,9 +119,23 @@ function SideBar() {
                         MIT Open Source license.
                     </a>
                 </small>
+                <div>
+                    <button
+                        onClick={() => {
+                            window.open(
+                                "https://github.com/ahnafwafiq09/firebase-react",
+                            );
+                        }}
+                    >
+                        <AiOutlineStar /> Star on Github
+                    </button>
+                </div>
                 <small>
                     Created and maintained by{" "}
-                    <a href="https://ahnafwafiq.com">Ahnaf Wafiq</a>.
+                    <a href="https://ahnafwafiq.com" target="_blank">
+                        Ahnaf Wafiq
+                    </a>
+                    .
                 </small>
             </footer>
         </div>

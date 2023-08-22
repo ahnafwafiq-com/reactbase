@@ -19,8 +19,7 @@
     padding: 10px;
     color: var(--color-one);
     border-collapse: separate;
-    border-spacing: 0 12px;
-    /* padding: 12px; */
+    border-spacing: 0 20px;
     width: 100%;
 }
 
@@ -28,15 +27,16 @@
 .sidebarClosed h3 {
     margin: 10px;
     margin-top: 30px;
-    font-size: 150%;
+    font-size: 160%;
     color: var(--color-one);
 }
 
 .todoCollection {
-    /* border: 1px solid var(--color-one); */
-    margin-bottom: 30px;
-    padding: 5px;
-    background-color: rgba(76, 75, 22, 0.1);
+    cursor: pointer;
+}
+
+.todoCollection:hover {
+    opacity: 0.7;
 }
 
 .todoCollection .colorCircle {
@@ -50,9 +50,6 @@
 .editButton {
     cursor: pointer;
     text-align: right;
-}
-.editButton:hover {
-    color: #c6c1b7;
 }
 
 .closebtn {
@@ -116,11 +113,11 @@
 .sidebarFooter small {
     display: block;
     font-size: 0.9rem;
+    margin-bottom: 12px;
+    margin-top: 12px;
 }
 
 .sidebarFooter big {
-    font-size: 1rem;
+    font-size: 1.05rem;
     text-align: center;
-    margin-bottom: 10px;
-    margin-top: 10px;
 }

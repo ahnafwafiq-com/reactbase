@@ -15,6 +15,7 @@ import {
     DocumentData,
 } from "firebase/firestore";
 import { BiEditAlt } from "react-icons/bi";
+import { BsGithub } from "react-icons/bs";
 
 function SideBar() {
     const [isOpen, setOpen] = useState(true);
@@ -97,7 +98,15 @@ function SideBar() {
             </div>
             <hr />
             <footer className={Styles.sidebarFooter}>
-                <div className={Styles.branding}>
+                <div
+                    className={Styles.branding}
+                    style={{ cursor: "pointer" }}
+                    onClick={() =>
+                        window.open(
+                            "https://github.com/ahnafwafiq09/firebase-react",
+                        )
+                    }
+                >
                     <img
                         className={Styles.logo}
                         src="https://reactbase.ahnafwafiq.com/logo-transparent.png"
@@ -127,7 +136,7 @@ function SideBar() {
                             );
                         }}
                     >
-                        <AiOutlineStar /> Star on Github
+                        <AiOutlineStar /> Star on <BsGithub /> Github
                     </button>
                 </div>
                 <small>

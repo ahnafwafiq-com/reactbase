@@ -1,6 +1,10 @@
 // Firebase Configuration
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import {
+    initializeAppCheck,
+    ReCaptchaEnterpriseProvider,
+} from "firebase/app-check";
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -16,4 +20,11 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const analytics = getAnalytics(app);
+export const appCheck = initializeAppCheck(app, {
+    provider: new ReCaptchaEnterpriseProvider(
+        "6LczWL8nAAAAAFJbrAwzKaYN-ny1MlXDgVP2IngF",
+    ),
+    isTokenAutoRefreshEnabled: true,
+});
+
 export default app;

@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import TodoItem from "./TodoItem";
 import Styles from "./TodoList.module.css";
 import { IoIosArrowForward } from "react-icons/io";
+// import { produce } from "immer";
 
 interface Todo {
     id: string;
@@ -9,14 +10,12 @@ interface Todo {
     finished: boolean;
     created: Date;
 }
-// interface Props {
-//     items: Todo[];
-// }
+interface Props {
+    items: Todo[];
+}
 
-function TodoList() {
-    // const [TodoItems, setTodoItems] = useState(items);
-    // const auth = getAuth(app);
-    // auth.currentUser?.photoURL;
+function TodoList({ items }: Props) {
+    const [TodoItems, setTodoItems] = useState(items);
     const searchRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
@@ -31,15 +30,19 @@ function TodoList() {
 
     const search = () => {
         const query = searchRef?.current?.value.toLowerCase();
+        setTodoItems([]);
         if (query) {
-            setTodoItems(
-                items.filter((item) => {
-                    return item.task.toLowerCase().includes(query)
-                        ? item
-                        : null;
-                }),
-            );
+            const searchedTodos: Todo[] = [];
+            items.forEach((item) => {
+                if (item.task.toLowerCase().includes(query)) {
+                    searchedTodos.push(item);
+                }
+            });
+            setTodoItems(searchedTodos);
+        } else {
+            setTodoItems(items);
         }
+        console.log(TodoItems.length);
     };
     return (
         <div className={Styles.todoList}>
@@ -54,7 +57,7 @@ function TodoList() {
             <table>
                 {TodoItems.map((item) => {
                     return item.finished ? null : (
-                        <TodoItem key={item.id} finished={false}>
+                        <TodoItem key={Math.random()} finished={item.finished}>
                             {item.task}
                         </TodoItem>
                     );
@@ -67,12 +70,12 @@ function TodoList() {
                 </span>
             </div>
             <table>
-                {items.map((item) => {
-                    return (
-                        <TodoItem finished={true} key={item.id}>
+                {TodoItems.map((item) => {
+                    return item.finished ? (
+                        <TodoItem finished={item.finished} key={Math.random()}>
                             {item.task}
                         </TodoItem>
-                    );
+                    ) : null;
                 })}
             </table>
         </div>

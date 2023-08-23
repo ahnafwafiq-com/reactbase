@@ -1,7 +1,7 @@
 // Importing CSS files
 import "./CSS/App.css";
 import "normalize.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 // Importing External Components
 import SignIn from "./components/SignIn";
 // import EditAccount from "./components/EditAccount";
@@ -12,29 +12,29 @@ import { produce } from "immer";
 
 // Importing Firebase features
 import { getAuth, applyActionCode } from "firebase/auth";
-import {
-    addDoc,
-    collection,
-    // connectFirestoreEmulator,
-    getFirestore,
-    serverTimestamp,
-} from "firebase/firestore";
-import app from "./Firebase-config";
+// import {
+//     addDoc,
+//     collection,
+//     // connectFirestoreEmulator,
+//     getFirestore,
+//     serverTimestamp,
+// } from "firebase/firestore";
+// import app from "./Firebase-config";
 
 function App() {
-    const db = getFirestore(app);
+    // const db = getFirestore(app);
     // connectFirestoreEmulator(db, "127.0.0.1", 8078);
-    useEffect(() => {
-        const collectionsRef = collection(db, "collections");
-        for (let i = 0; i < 10; i++) {
-            addDoc(collectionsRef, {
-                name: `Test Collection ${Math.round(Math.random() * 10000)}`,
-                userId: "P2e61VI1dcaF8VBRcEL0vlv6REr2",
-                createdAt: serverTimestamp(),
-                color: "#ffffff",
-            });
-        }
-    });
+    // useEffect(() => {
+    //     const collectionsRef = collection(db, "collections");
+    //     for (let i = 0; i < 10; i++) {
+    //         addDoc(collectionsRef, {
+    //             name: `Test Collection ${Math.round(Math.random() * 10000)}`,
+    //             userId: "P2e61VI1dcaF8VBRcEL0vlv6REr2",
+    //             createdAt: serverTimestamp(),
+    //             color: "#ffffff",
+    //         });
+    //     }
+    // });
     const params = new URLSearchParams(window.location.search);
     const [showSignIn, setShowSignIn] = useState<boolean>(false);
     const [ErrorObj, setErrorObj] = useState({
@@ -74,11 +74,26 @@ function App() {
             });
     }
     // const [user] = useAuthState(auth);
+    interface Todo {
+        id: string;
+        task: string;
+        finished: boolean;
+        created: Date;
+    }
+    const todos: Todo[] = [];
+    for (let i = 0; i < 10; i++) {
+        todos.push({
+            id: Math.round(Math.random() ** 10000).toString(),
+            task: `Suiiiii ${Math.random()}`,
+            finished: Math.round(Math.random()) ? true : false,
+            created: new Date(),
+        });
+    }
     return (
         <>
             {/* <EditAccount /> */}
             {/* <SideBar /> */}
-            <TodoList />
+            <TodoList items={todos} />
             <SignIn
                 window={1}
                 isOpen={showSignIn}

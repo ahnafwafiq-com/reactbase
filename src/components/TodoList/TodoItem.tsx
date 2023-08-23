@@ -1,4 +1,3 @@
-// import { useState } from "react";
 import Styles from "./TodoItem.module.css";
 import { MdOutlineDelete } from "react-icons/md";
 import { BiEditAlt, BiDotsVerticalRounded } from "react-icons/bi";
@@ -11,10 +10,8 @@ interface Props {
 
 function TodoItem({ children, finished }: Props) {
     const iconSize = "24px";
-    // const [DeleteHover, setDeleteHover] = useState(false);
-    // const [EditHover, setEditHover] = useState(false);
     return (
-        <tr className={[Styles.todoItem, "todoItem"].join(" ")}>
+        <tr className={Styles.todoItem}>
             <td className={Styles.checkBoxTd}>
                 {finished ? (
                     <input
@@ -30,11 +27,7 @@ function TodoItem({ children, finished }: Props) {
             <td
                 className={
                     finished
-                        ? [
-                              Styles.todoText,
-                              "todoText",
-                              Styles.textFinished,
-                          ].join(" ")
+                        ? [Styles.todoText, Styles.textFinished].join(" ")
                         : [Styles.todoText, "todoText"].join(" ")
                 }
             >

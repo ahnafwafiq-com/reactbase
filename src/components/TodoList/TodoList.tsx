@@ -16,8 +16,6 @@ interface Todo {
     id: string;
     task: string;
     finished: boolean;
-    created: unknown;
-    updated: unknown;
 }
 interface Props {
     collectionId: string;
@@ -38,19 +36,6 @@ function TodoList({ collectionId }: Props) {
         });
     }, []);
 
-    const updateList = (todoId: string) => {
-        const tempTodoItems = [...items];
-        const index = items.findIndex((item) => item.id === todoId);
-        if (index !== -1) {
-            tempTodoItems.splice(index, 1);
-        }
-        setItems(tempTodoItems);
-        setTodoItems(tempTodoItems);
-        if (searchRef.current) {
-            searchRef.current.value = "";
-        }
-    };
-
     useEffect(() => {
         // setItems([]);
         // setTodoItems([]);
@@ -64,8 +49,6 @@ function TodoList({ collectionId }: Props) {
                     id: todo.id,
                     task: todo.get("name"),
                     finished: todo.get("finished"),
-                    created: todo.get("createdAt"),
-                    updated: todo.get("updatedAt"),
                 });
             });
             setItems(tempTodoItems);
@@ -75,6 +58,31 @@ function TodoList({ collectionId }: Props) {
             }
         });
     }, []);
+
+    const updateList = (todoId: string, mode?: "delete" | "finished") => {
+        const tempTodoItems = [...items];
+        const index = items.findIndex((item) => item.id === todoId);
+        if (mode === "delete") {
+            if (index !== -1) {
+                tempTodoItems.splice(index, 1);
+                setItems(tempTodoItems);
+                setTodoItems(tempTodoItems);
+                if (searchRef.current) {
+                    searchRef.current.value = "";
+                }
+                return;
+            }
+            return;
+        } else if (mode === "finished") {
+            tempTodoItems[index].finished = true;
+            setItems(tempTodoItems);
+            setTodoItems(tempTodoItems);
+            if (searchRef.current) {
+                searchRef.current.value = "";
+            }
+            return;
+        }
+    };
 
     const search = () => {
         const query = searchRef?.current?.value.toLowerCase();
@@ -106,7 +114,7 @@ function TodoList({ collectionId }: Props) {
                     return item.finished ? null : (
                         <TodoItem
                             todoId={item.id}
-                            removeTodo={(todoId) => updateList(todoId)}
+                            updateTodoList={updateList}
                             key={item.id}
                             finished={item.finished}
                         >
@@ -126,7 +134,7 @@ function TodoList({ collectionId }: Props) {
                     return item.finished ? (
                         <TodoItem
                             todoId={item.id}
-                            removeTodo={(todoId) => updateList(todoId)}
+                            updateTodoList={updateList}
                             finished={item.finished}
                             key={item.id}
                         >

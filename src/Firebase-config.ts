@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
+import { initializePerformance } from "firebase/performance";
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -17,6 +18,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const analytics = getAnalytics(app);
+export const performance = initializePerformance(app);
 export const appCheck = initializeAppCheck(app, {
     provider: new ReCaptchaV3Provider(
         "6Lcn7ccnAAAAAOC8jISSQfuHYzRzeZ0ltDvmGtjH",

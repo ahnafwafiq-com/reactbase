@@ -1,21 +1,31 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useRef, useEffect } from "react";
 import TodoItem from "./TodoItem";
 import Styles from "./TodoList.module.css";
 import { IoIosArrowForward } from "react-icons/io";
-// import { produce } from "immer";
+import {
+    collection,
+    getDocs,
+    getFirestore,
+    query,
+    where,
+} from "firebase/firestore";
+import app from "../../Firebase-config";
 
 interface Todo {
     id: string;
     task: string;
     finished: boolean;
-    created: Date;
+    created: unknown;
+    updated: unknown;
 }
 interface Props {
-    items: Todo[];
+    collectionId: string;
 }
 
-function TodoList({ items }: Props) {
-    const [TodoItems, setTodoItems] = useState(items);
+function TodoList({ collectionId }: Props) {
+    const [items, setItems] = useState<Todo[]>([]);
+    const [TodoItems, setTodoItems] = useState<Todo[]>([]);
     const searchRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
@@ -24,6 +34,44 @@ function TodoList({ items }: Props) {
                 if (searchRef.current) {
                     searchRef.current.focus();
                 }
+            }
+        });
+    }, []);
+
+    const updateList = (todoId: string) => {
+        const tempTodoItems = [...items];
+        const index = items.findIndex((item) => item.id === todoId);
+        if (index !== -1) {
+            tempTodoItems.splice(index, 1);
+        }
+        setItems(tempTodoItems);
+        setTodoItems(tempTodoItems);
+        if (searchRef.current) {
+            searchRef.current.value = "";
+        }
+    };
+
+    useEffect(() => {
+        // setItems([]);
+        // setTodoItems([]);
+        const db = getFirestore(app);
+        const todosRef = collection(db, "todos");
+        const q = query(todosRef, where("collectionId", "==", collectionId));
+        getDocs(q).then((todosSnapshot) => {
+            const tempTodoItems: Todo[] = [];
+            todosSnapshot.forEach((todo) => {
+                tempTodoItems.push({
+                    id: todo.id,
+                    task: todo.get("name"),
+                    finished: todo.get("finished"),
+                    created: todo.get("createdAt"),
+                    updated: todo.get("updatedAt"),
+                });
+            });
+            setItems(tempTodoItems);
+            setTodoItems(tempTodoItems);
+            if (searchRef.current) {
+                searchRef.current.value = "";
             }
         });
     }, []);
@@ -42,7 +90,6 @@ function TodoList({ items }: Props) {
         } else {
             setTodoItems(items);
         }
-        console.log(TodoItems.length);
     };
     return (
         <div className={Styles.todoList}>
@@ -57,7 +104,12 @@ function TodoList({ items }: Props) {
             <table>
                 {TodoItems.map((item) => {
                     return item.finished ? null : (
-                        <TodoItem key={Math.random()} finished={item.finished}>
+                        <TodoItem
+                            todoId={item.id}
+                            removeTodo={(todoId) => updateList(todoId)}
+                            key={item.id}
+                            finished={item.finished}
+                        >
                             {item.task}
                         </TodoItem>
                     );
@@ -66,13 +118,18 @@ function TodoList({ items }: Props) {
             <div className={Styles.collapse}>
                 <h4>Finished</h4>
                 <span className={Styles.arrowIcon}>
-                    <IoIosArrowForward></IoIosArrowForward>
+                    <IoIosArrowForward />
                 </span>
             </div>
             <table>
                 {TodoItems.map((item) => {
                     return item.finished ? (
-                        <TodoItem finished={item.finished} key={Math.random()}>
+                        <TodoItem
+                            todoId={item.id}
+                            removeTodo={(todoId) => updateList(todoId)}
+                            finished={item.finished}
+                            key={item.id}
+                        >
                             {item.task}
                         </TodoItem>
                     ) : null;

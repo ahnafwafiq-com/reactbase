@@ -23,15 +23,16 @@ import { getAuth, applyActionCode } from "firebase/auth";
 
 function App() {
     // const db = getFirestore(app);
-    // connectFirestoreEmulator(db, "127.0.0.1", 8078);
+    // // connectFirestoreEmulator(db, "127.0.0.1", 8078);
     // useEffect(() => {
-    //     const collectionsRef = collection(db, "collections");
+    //     const todosRef = collection(db, "todos");
     //     for (let i = 0; i < 10; i++) {
-    //         addDoc(collectionsRef, {
-    //             name: `Test Collection ${Math.round(Math.random() * 10000)}`,
-    //             userId: "P2e61VI1dcaF8VBRcEL0vlv6REr2",
+    //         addDoc(todosRef, {
+    //             name: `Test Todo ${Math.round(Math.random() * 1000)}`,
+    //             collectionId: "3cL6sW7GFL5zWZxoxuvk",
     //             createdAt: serverTimestamp(),
-    //             color: "#ffffff",
+    //             updatedAt: serverTimestamp(),
+    //             finished: Math.round(Math.random()) ? true : false,
     //         });
     //     }
     // });
@@ -93,7 +94,7 @@ function App() {
         <>
             {/* <EditAccount /> */}
             {/* <SideBar /> */}
-            <TodoList items={todos} />
+            <TodoList collectionId="3cL6sW7GFL5zWZxoxuvk" />
             <SignIn
                 window={1}
                 isOpen={showSignIn}

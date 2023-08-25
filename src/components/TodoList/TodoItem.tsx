@@ -1,14 +1,23 @@
 import Styles from "./TodoItem.module.css";
 import { MdOutlineDelete } from "react-icons/md";
 import { BiEditAlt, BiDotsVerticalRounded } from "react-icons/bi";
+import {
+    collection,
+    deleteDoc,
+    doc,
+    getFirestore,
+    updateDoc,
+} from "firebase/firestore";
+import app from "../../Firebase-config";
 
-// Defining Interface for <TodoItem/> props
 interface Props {
     finished: boolean;
     children: string;
+    todoId: string;
+    removeTodo: (todoId: string) => void;
 }
 
-function TodoItem({ children, finished }: Props) {
+function TodoItem({ children, finished, todoId, removeTodo }: Props) {
     const iconSize = "24px";
     return (
         <tr className={Styles.todoItem}>
@@ -21,7 +30,23 @@ function TodoItem({ children, finished }: Props) {
                         checked
                     />
                 ) : (
-                    <input className={Styles.checkBox} type="checkbox" />
+                    <input
+                        className={Styles.checkBox}
+                        type="checkbox"
+                        onChange={(e) => {
+                            if (finished) return;
+                            if (e.target.checked) {
+                                const ref = doc(
+                                    collection(getFirestore(app), "todos"),
+                                    todoId,
+                                );
+
+                                updateDoc(ref, {
+                                    finished: true,
+                                });
+                            }
+                        }}
+                    />
                 )}
             </td>
             <td
@@ -42,7 +67,16 @@ function TodoItem({ children, finished }: Props) {
             </td>
 
             <td>
-                <div className={Styles.deleteButton} title="Delete Todo">
+                <div
+                    className={Styles.deleteButton}
+                    title="Delete Todo"
+                    onClick={() => {
+                        removeTodo(todoId);
+                        const todosRef = collection(getFirestore(app), "todos");
+                        deleteDoc(doc(todosRef, todoId));
+                        removeTodo(todoId);
+                    }}
+                >
                     <MdOutlineDelete size={iconSize} />
                 </div>
             </td>

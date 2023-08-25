@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import Styles from "./SideBar.module.css";
 import { AiOutlineClose, AiOutlineStar } from "react-icons/ai";

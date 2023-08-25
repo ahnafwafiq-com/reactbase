@@ -1,6 +1,6 @@
 import Styles from "./TodoItem.module.css";
 import { MdOutlineDelete } from "react-icons/md";
-import { BiEditAlt, BiDotsVerticalRounded } from "react-icons/bi";
+import { BiEditAlt } from "react-icons/bi";
 import {
     collection,
     deleteDoc,
@@ -14,10 +14,10 @@ interface Props {
     finished: boolean;
     children: string;
     todoId: string;
-    removeTodo: (todoId: string) => void;
+    updateTodoList: (todoId: string, mode: "delete" | "finished") => void;
 }
 
-function TodoItem({ children, finished, todoId, removeTodo }: Props) {
+function TodoItem({ children, finished, todoId, updateTodoList }: Props) {
     const iconSize = "24px";
     return (
         <tr className={Styles.todoItem}>
@@ -36,11 +36,12 @@ function TodoItem({ children, finished, todoId, removeTodo }: Props) {
                         onChange={(e) => {
                             if (finished) return;
                             if (e.target.checked) {
+                                updateTodoList(todoId, "finished");
+                                // updateTodoList(todoId, "finished");
                                 const ref = doc(
                                     collection(getFirestore(app), "todos"),
                                     todoId,
                                 );
-
                                 updateDoc(ref, {
                                     finished: true,
                                 });
@@ -65,24 +66,18 @@ function TodoItem({ children, finished, todoId, removeTodo }: Props) {
                     </div>
                 )}
             </td>
-
             <td>
                 <div
                     className={Styles.deleteButton}
                     title="Delete Todo"
                     onClick={() => {
-                        removeTodo(todoId);
+                        updateTodoList(todoId, "delete");
                         const todosRef = collection(getFirestore(app), "todos");
                         deleteDoc(doc(todosRef, todoId));
-                        removeTodo(todoId);
+                        updateTodoList(todoId, "delete");
                     }}
                 >
                     <MdOutlineDelete size={iconSize} />
-                </div>
-            </td>
-            <td>
-                <div className={Styles.optionsButton}>
-                    <BiDotsVerticalRounded size={iconSize} />
                 </div>
             </td>
         </tr>

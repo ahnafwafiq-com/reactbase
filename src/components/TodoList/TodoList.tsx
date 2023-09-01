@@ -59,7 +59,11 @@ function TodoList({ collectionId }: Props) {
         });
     }, []);
 
-    const updateList = (todoId: string, mode?: "delete" | "finished") => {
+    const updateList = (
+        todoId: string,
+        mode: "delete" | "finished" | "edit",
+        newTodo?: string,
+    ) => {
         const tempTodoItems = [...items];
         const index = items.findIndex((item) => item.id === todoId);
         if (mode === "delete") {
@@ -81,6 +85,15 @@ function TodoList({ collectionId }: Props) {
                 searchRef.current.value = "";
             }
             return;
+        } else if (mode === "edit") {
+            if (newTodo) {
+                tempTodoItems[index].task = newTodo;
+            }
+            setItems(tempTodoItems);
+            setTodoItems(tempTodoItems);
+            if (searchRef.current) {
+                searchRef.current.value = "";
+            }
         }
     };
 

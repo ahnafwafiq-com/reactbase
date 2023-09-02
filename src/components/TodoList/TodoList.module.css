@@ -15,3 +15,50 @@
     width: clamp(200px, 100vw, 850px);
     height: 2.2rem;
 }
+
+.newTodo {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 50px;
+    background-color: var(--color-two);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 0px 50px 0px rgba(76, 75, 25, 0.75);
+    -webkit-box-shadow: 0px 0px 50px 0px rgba(76, 75, 25, 0.75);
+    -moz-box-shadow: 0px 0px 50px 0px rgba(76, 75, 25, 0.75);
+}
+
+.newTodo input {
+    width: 60vw;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.newTodo button {
+    border-radius: 8px;
+    padding: 8px;
+    width: 8vw;
+    outline: 0;
+}
+.newTodo button:hover {
+    background-color: #ded9ce;
+}
+
+.newTodo input:focus {
+    outline: 0;
+    box-shadow: var(--input-shadow-light);
+}
+
+@media screen and (max-width: 870px) {
+    .newTodo button {
+        width: 12vw;
+    }
+}
+@media screen and (max-width: 600px) {
+    .newTodo button {
+        width: 18vw;
+    }
+}

@@ -56,4 +56,5 @@
     padding: 8px;
     border-radius: 5px;
     border: 0.1px solid var(--color-two);
+    width: 95%;
 }

@@ -4,13 +4,16 @@ import TodoItem from "./TodoItem";
 import Styles from "./TodoList.module.css";
 import { IoIosArrowForward } from "react-icons/io";
 import {
+    addDoc,
     collection,
     getDocs,
     getFirestore,
     query,
+    serverTimestamp,
     where,
 } from "firebase/firestore";
 import app from "../../Firebase-config";
+import { GrAdd } from "react-icons/gr";
 
 interface Todo {
     id: string;
@@ -25,6 +28,7 @@ function TodoList({ collectionId }: Props) {
     const [items, setItems] = useState<Todo[]>([]);
     const [TodoItems, setTodoItems] = useState<Todo[]>([]);
     const searchRef = useRef<HTMLInputElement>(null);
+    const newTodoRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         document.addEventListener("keyup", (e) => {
@@ -37,8 +41,6 @@ function TodoList({ collectionId }: Props) {
     }, []);
 
     useEffect(() => {
-        // setItems([]);
-        // setTodoItems([]);
         const db = getFirestore(app);
         const todosRef = collection(db, "todos");
         const q = query(todosRef, where("collectionId", "==", collectionId));
@@ -122,6 +124,53 @@ function TodoList({ collectionId }: Props) {
                 name="searchTodo"
                 className={Styles.searchbox}
             />
+            <div className={Styles.newTodo}>
+                <form
+                    onSubmit={async (e) => {
+                        e.preventDefault();
+                        const todosRef = collection(getFirestore(app), "todos");
+                        const newTodo = newTodoRef?.current?.value;
+                        if (newTodo) {
+                            const todoRef = await addDoc(todosRef, {
+                                name: newTodo,
+                                collectionId: collectionId,
+                                createdAt: serverTimestamp(),
+                                updatedAt: serverTimestamp(),
+                                finished: false,
+                            });
+                            setTodoItems([
+                                ...TodoItems,
+                                {
+                                    id: todoRef.id,
+                                    task: newTodo,
+                                    finished: false,
+                                },
+                            ]);
+                            setItems([
+                                ...TodoItems,
+                                {
+                                    id: todoRef.id,
+                                    task: newTodo,
+                                    finished: false,
+                                },
+                            ]);
+                            if (newTodoRef.current) {
+                                newTodoRef.current.value = "";
+                            }
+                        }
+                    }}
+                >
+                    <input
+                        ref={newTodoRef}
+                        type="text"
+                        placeholder="Create new todo"
+                    />
+                    <button>
+                        {" "}
+                        <GrAdd /> Add
+                    </button>
+                </form>
+            </div>
             <table>
                 {TodoItems.map((item) => {
                     return item.finished ? null : (

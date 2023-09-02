@@ -7,9 +7,10 @@ import {
     doc,
     getFirestore,
     updateDoc,
+    serverTimestamp,
 } from "firebase/firestore";
 import app from "../../Firebase-config";
-import { useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineSave } from "react-icons/ai";
 
 interface Props {
@@ -23,10 +24,30 @@ interface Props {
     ) => void;
 }
 
-function TodoItem({ children, finished, todoId, updateTodoList }: Props) {
+const TodoItem = ({ children, finished, todoId, updateTodoList }: Props) => {
     const [isEditing, setEditing] = useState<boolean>(false);
-    const editRef = useRef<HTMLInputElement>(null);
+    const [newTodo, setNewTodo] = useState(children);
     const iconSize = "24px";
+    useEffect(() => {
+        document.addEventListener("keyup", (e: KeyboardEvent) => {
+            if (isEditing && e.key === "Enter") {
+                setEditing(false);
+                if (newTodo) {
+                    updateTodoList(todoId, "edit", newTodo);
+                    setEditing(false);
+                    const ref = doc(
+                        collection(getFirestore(app), "todos"),
+                        todoId,
+                    );
+                    updateDoc(ref, {
+                        name: newTodo,
+                        updatedAt: serverTimestamp(),
+                    });
+                    updateTodoList(todoId, "edit", newTodo);
+                }
+            }
+        });
+    });
     return (
         <tr className={Styles.todoItem}>
             <td className={Styles.checkBoxTd}>
@@ -62,8 +83,9 @@ function TodoItem({ children, finished, todoId, updateTodoList }: Props) {
                 <td>
                     <input
                         type="text"
-                        ref={editRef}
                         placeholder={children}
+                        value={newTodo}
+                        onChange={(e) => setNewTodo(e.target.value)}
                         className={Styles.editTodo}
                     />
                 </td>
@@ -79,22 +101,31 @@ function TodoItem({ children, finished, todoId, updateTodoList }: Props) {
                 </td>
             )}
             <td>
-                {finished ? null : isEditing ? (
+                {finished ? (
+                    <div
+                        style={{
+                            width: "22px",
+                            aspectRatio: 1,
+                        }}
+                    ></div>
+                ) : isEditing ? (
                     <div
                         className={Styles.editButton}
                         onClick={() => {
-                            const newTodo = editRef?.current?.value;
-                            if (!newTodo) return;
-                            updateTodoList(todoId, "edit", newTodo);
                             setEditing(false);
-                            const ref = doc(
-                                collection(getFirestore(app), "todos"),
-                                todoId,
-                            );
-                            updateDoc(ref, {
-                                name: newTodo,
-                            });
-                            updateTodoList(todoId, "edit", newTodo);
+                            if (newTodo) {
+                                updateTodoList(todoId, "edit", newTodo);
+                                setEditing(false);
+                                const ref = doc(
+                                    collection(getFirestore(app), "todos"),
+                                    todoId,
+                                );
+                                updateDoc(ref, {
+                                    name: newTodo,
+                                    updatedAt: serverTimestamp(),
+                                });
+                                updateTodoList(todoId, "edit", newTodo);
+                            }
                         }}
                     >
                         <AiOutlineSave size={iconSize} />
@@ -103,10 +134,7 @@ function TodoItem({ children, finished, todoId, updateTodoList }: Props) {
                     <div
                         className={Styles.editButton}
                         title="Edit Todo"
-                        onClick={() => {
-                            setEditing(() => true);
-                            editRef.current?.focus();
-                        }}
+                        onClick={() => setEditing(() => true)}
                     >
                         <BiEditAlt size={iconSize} />
                     </div>
@@ -129,6 +157,6 @@ function TodoItem({ children, finished, todoId, updateTodoList }: Props) {
             </td>
         </tr>
     );
-}
+};
 
 export default TodoItem;

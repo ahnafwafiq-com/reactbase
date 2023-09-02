@@ -6,13 +6,9 @@ A **Todo app** built with **React** with **Firebase**.
 
 ### **Test the app:**
 
-Use one of the links below to test the app live.
+Use the link below to test the app live.
 
 [reactbase.ahnafwafiq.com](https://reactbase.ahnafwafiq.com/)
-
-[aw-firebase-react.web.app](https://aw-firebase-app.web.app/)
-
-[aw-firebase-react.firebaseapp.com](https://aw-firebase-react.firebaseapp.com/)
 
 ### **Play Around with the code:**
 
@@ -82,4 +78,4 @@ You can also use yarn or pnpm instead of npm accordingly.
 
 ### **Back-end:**
 
-The project has almost no back-end infrastructure of it's own. Instead, it uses Firebase for everything. The Firebase SDK provides secure and powerful back-end tools for front-end developers which allows them to leverage the power of GCP for little to no cost at all. This project is build fully with Firebase starting from User authenticaion, Database, and even Hosting. Firebase is secure by default which is the main reason behind using it. Self-hosted back-ends take a lot of effort to be scalable and secure. Firebase handles all of that for you allowing great developer experience.
+The project has almost no back-end infrastructure of it's own. Instead, it uses Firebase for everything. The Firebase SDK provides secure and powerful back-end tools for front-end developers which allows them to leverage the power of GCP for little to no cost at all. This project is build fully with Firebase starting from User authenticaion, Database, and even Hosting. Firebase is secure by default which is the main reason behind using it. Self-hosted back-ends take a lot of effort to be scalable and secure. Firebase handles all of that for you allowing great developer experience. A few noticable cons of using Firebase is that the bundle usually gets really large in production. Luckily, vite accounts fir that by using creative code-splitting and dynamically importing only packages that the end user needs. This will be talked about me below.

@@ -1,4 +1,4 @@
-# **Firebase React Todo App**
+# **ReactBase Todo App**
 
 A **Todo app** built with **React** with **Firebase**.
 

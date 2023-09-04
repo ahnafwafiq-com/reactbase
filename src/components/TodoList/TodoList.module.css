@@ -42,6 +42,7 @@
     padding: 8px;
     width: 8vw;
     outline: 0;
+    background-color: var(--color-one);
 }
 .newTodo button:hover {
     background-color: #ded9ce;

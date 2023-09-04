@@ -25,10 +25,13 @@ import LinkTwitter from "./LinkTwitter";
 import LinkFacebook from "./LinkFacebook";
 import DeleteAccount from "./DeleteAccount";
 
-export default function EditAccount() {
+interface Props {
+    isOpen: boolean;
+    close: () => void;
+}
+
+export default function EditAccount({ isOpen, close }: Props) {
     const [reRender, triggerReRender] = useState(0);
-    const defaultDpUrl =
-        "https://s3.ap-southeast-1.amazonaws.com/cdn.ahnafwafiq.com/user.jpg";
     // console.log(auth.currentUser?.providerData);
     // console.log(auth.currentUser?.providerId);
     const [isLoading, setLoading] = useState(false);
@@ -38,6 +41,16 @@ export default function EditAccount() {
         message: "",
         unchangedMessage: "",
     });
+
+    useEffect(() => {
+        document.addEventListener("keyup", (e: KeyboardEvent) => {
+            if (e.key === "Escape") {
+                e.preventDefault();
+                close();
+            }
+        });
+    }, []);
+
     const auth = getAuth();
     const [user] = useAuthState(auth);
     const [providers, setProviders] = useState({
@@ -82,10 +95,13 @@ export default function EditAccount() {
     const emailRef = useRef<HTMLInputElement>(null);
     return (
         <>
-            <dialog open className={Styles.editAccount}>
+            <dialog open={isOpen} className={Styles.editAccount}>
                 <img
                     className={Styles.displayPicture}
-                    src={user?.photoURL || defaultDpUrl}
+                    src={
+                        user?.photoURL ||
+                        "https://reactbase.ahnafwafiq.com/user.jpg"
+                    }
                     alt="User Profile Picture"
                 />
                 <h2>

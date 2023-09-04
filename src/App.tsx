@@ -1,17 +1,17 @@
 // Importing CSS files
 import "./CSS/App.css";
 import "normalize.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 // Importing External Components
 import SignIn from "./components/SignIn";
 // import EditAccount from "./components/EditAccount";
+import SignedIn from "./components/SignedIn";
 // import SideBar from "./components/SideBar";
-import TodoList from "./components/TodoList";
 import ShowError from "./components/Error/Error";
 import { produce } from "immer";
 
 // Importing Firebase features
-import { getAuth, applyActionCode } from "firebase/auth";
+import { getAuth, applyActionCode, onAuthStateChanged } from "firebase/auth";
 // import {
 //     addDoc,
 //     collection,
@@ -45,6 +45,29 @@ function App() {
         unchangedMessage: "",
     });
 
+    useEffect(() => {
+        const auth = getAuth();
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                if (
+                    user.metadata.creationTime === user.metadata.lastSignInTime
+                ) {
+                    const searchParams = new URLSearchParams();
+                    searchParams.append("email", user.email || "");
+                    searchParams.append(
+                        "name",
+                        user.displayName ||
+                            user?.email?.split("@")[0].split("+")[0] ||
+                            "",
+                    );
+                    fetch(
+                        `https://ahnafwafiq.com/api/reactbase/welcome?${searchParams.toString()}`,
+                    );
+                }
+            }
+        });
+    }, []);
+
     if (params.get("mode") === "resetPassword") {
         return (
             <SignIn
@@ -59,12 +82,18 @@ function App() {
         const oobCode = params.get("oobCode") || "";
         applyActionCode(auth, oobCode)
             .then(() => {
-                const currentURL = window.location.href.split("?")[0];
-                history.replaceState({}, document.title, currentURL);
+                history.replaceState(
+                    {},
+                    document.title,
+                    window.location.href.split("?")[0],
+                );
             })
             .catch((e) => {
-                const currentURL = window.location.href.split("?")[0];
-                history.replaceState({}, document.title, currentURL);
+                history.replaceState(
+                    {},
+                    document.title,
+                    window.location.href.split("?")[0],
+                );
                 setErrorObj(
                     produce((draft) => {
                         draft.error = true;
@@ -94,7 +123,7 @@ function App() {
         <>
             {/* <EditAccount /> */}
             {/* <SideBar /> */}
-            <TodoList collectionId="3cL6sW7GFL5zWZxoxuvk" />
+            <SignedIn />
             <SignIn
                 window={1}
                 isOpen={showSignIn}

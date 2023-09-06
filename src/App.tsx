@@ -11,7 +11,13 @@ import ShowError from "./components/Error/Error";
 import { produce } from "immer";
 
 // Importing Firebase features
-import { getAuth, applyActionCode, onAuthStateChanged } from "firebase/auth";
+import {
+    getAuth,
+    applyActionCode,
+    onAuthStateChanged,
+    checkActionCode,
+} from "firebase/auth";
+import Message from "./components/Message";
 // import {
 //     addDoc,
 //     collection,
@@ -80,13 +86,31 @@ function App() {
     if (params.get("mode") === "verifyEmail" && params.get("oobCode")) {
         const auth = getAuth();
         const oobCode = params.get("oobCode") || "";
-        applyActionCode(auth, oobCode)
-            .then(() => {
-                history.replaceState(
-                    {},
-                    document.title,
-                    window.location.href.split("?")[0],
-                );
+        checkActionCode(auth, oobCode)
+            .then(({ data }) => {
+                console.log(data);
+                applyActionCode(auth, oobCode)
+                    .then(() => {
+                        history.replaceState(
+                            {},
+                            document.title,
+                            window.location.href.split("?")[0],
+                        );
+                    })
+                    .catch((e) => {
+                        history.replaceState(
+                            {},
+                            document.title,
+                            window.location.href.split("?")[0],
+                        );
+                        setErrorObj(
+                            produce((draft) => {
+                                draft.error = true;
+                                draft.message = e.message;
+                                draft.code = e.code;
+                            }),
+                        );
+                    });
             })
             .catch((e) => {
                 history.replaceState(
@@ -104,25 +128,13 @@ function App() {
             });
     }
     // const [user] = useAuthState(auth);
-    interface Todo {
-        id: string;
-        task: string;
-        finished: boolean;
-        created: Date;
-    }
-    const todos: Todo[] = [];
-    for (let i = 0; i < 10; i++) {
-        todos.push({
-            id: Math.round(Math.random() ** 10000).toString(),
-            task: `Suiiiii ${Math.random()}`,
-            finished: Math.round(Math.random()) ? true : false,
-            created: new Date(),
-        });
-    }
     return (
         <>
             {/* <EditAccount /> */}
             {/* <SideBar /> */}
+            <Message onClose={() => console.log("Message Closed")}>
+                Hello Message!
+            </Message>
             <SignedIn />
             <SignIn
                 window={1}

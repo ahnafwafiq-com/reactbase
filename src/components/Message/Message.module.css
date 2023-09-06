@@ -1,0 +1,27 @@
+.messageDiv {
+    position: fixed;
+    top: 0;
+    left: 0;
+    color: var(--color-one);
+    right: 0;
+    background-color: var(--color-two-transparent);
+    border: 1px solid #222;
+    padding: 10px;
+    z-index: 69;
+}
+
+.error {
+    font-size: 1rem;
+    margin-bottom: 0;
+    margin-top: 2px;
+}
+
+.close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.close:hover {
+    color: #111;
+}

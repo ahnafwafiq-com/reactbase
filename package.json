@@ -1,8 +1,8 @@
 {
-    "name": "firebase-react",
+    "name": "reactbase",
     "version": "1.0.0",
-    "description": "A Todo app built using Firebase and React",
-    "homepage": "https://firebase-react.ahnafwafiq.com",
+    "description": "A Todo app built with Firebase and React",
+    "homepage": "https://reactbase.ahnafwafiq.com",
     "main": "app.tsx",
     "type": "module",
     "scripts": {
@@ -12,7 +12,8 @@
         "preview": "vite preview",
         "typecheck": "tsc",
         "prettier": "prettier . --write",
-        "prettier:check": "prettier . --check"
+        "prettier:check": "prettier . --check",
+        "pre:commit": "concurrently \"npm run lint\" \"npm run typecheck\" \"npm run prettier\""
     },
     "dependencies": {
         "atomic-spinner": "^1.2.8",
@@ -32,6 +33,7 @@
         "@typescript-eslint/eslint-plugin": "^6.4.0",
         "@typescript-eslint/parser": "^6.4.0",
         "@vitejs/plugin-react": "^4.0.0",
+        "concurrently": "^8.2.1",
         "eslint": "^8.47.0",
         "eslint-plugin-react-hooks": "^4.6.0",
         "eslint-plugin-react-refresh": "^0.4.3",

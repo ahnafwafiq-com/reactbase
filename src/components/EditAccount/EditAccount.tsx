@@ -12,7 +12,7 @@ import { BiEditAlt } from "react-icons/bi";
 import { FiSave, FiSend } from "react-icons/fi";
 // import { ref, getStorage } from "firebase/storage";
 import { useAuthState } from "react-firebase-hooks/auth";
-import Styles from "./EditAccount.module.css";
+import s from "./EditAccount.module.css";
 import { FormEvent, useRef, useState, useEffect } from "react";
 import AtomicSpinner from "atomic-spinner";
 import ShowError from "../Error";
@@ -95,9 +95,9 @@ export default function EditAccount({ isOpen, close }: Props) {
     const emailRef = useRef<HTMLInputElement>(null);
     return (
         <>
-            <dialog open={isOpen} className={Styles.editAccount}>
+            <dialog open={isOpen} className={s.editAccount}>
                 <img
-                    className={Styles.displayPicture}
+                    className={s.displayPicture}
                     src={
                         user?.photoURL ||
                         "https://reactbase.ahnafwafiq.com/user.jpg"
@@ -110,7 +110,7 @@ export default function EditAccount({ isOpen, close }: Props) {
                         user?.email?.split("@")[0].split("+")[0]}
                 </h2>
                 <h4>Edit Account Details:</h4>
-                <div className={Styles.editingDiv}>
+                <div className={s.editingDiv}>
                     <form
                         onSubmit={async (e: FormEvent) => {
                             e.preventDefault();
@@ -143,7 +143,7 @@ export default function EditAccount({ isOpen, close }: Props) {
                             type="text"
                             id="displayname"
                             name="displayname"
-                            placeholder={user?.displayName || ""}
+                            placeholder={user!.displayName!}
                             required
                         />
                         <button type="submit">
@@ -183,7 +183,7 @@ export default function EditAccount({ isOpen, close }: Props) {
                             type="text"
                             id="email"
                             name="email"
-                            placeholder={user?.email || ""}
+                            placeholder={user!.email!}
                             required
                         />
                         <button type="submit">
@@ -220,7 +220,7 @@ export default function EditAccount({ isOpen, close }: Props) {
                     </button>
                 </div>
                 <h4>Connect other login-in methods:</h4>
-                <div className={Styles.connectionDiv}>
+                <div className={s.connectionDiv}>
                     <table>
                         <LinkGoogle
                             connected={providers.google}
@@ -263,7 +263,7 @@ export default function EditAccount({ isOpen, close }: Props) {
                         await signOut(auth);
                         setLoading(false);
                     }}
-                    className={Styles.signOutBtn}
+                    className={s.signOutBtn}
                 >
                     <RxExit />
                     <span> </span>

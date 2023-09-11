@@ -2,8 +2,16 @@
     "name": "reactbase",
     "version": "1.0.0",
     "description": "A Todo app built with Firebase and React",
+    "author": "Ahnaf Wafiq",
     "homepage": "https://reactbase.ahnafwafiq.com",
-    "main": "app.tsx",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ahnafwafiq09/firebase-react.git"
+    },
+    "bugs": {
+        "url": "https://github.com/ahnafwafiq09/firebase-react/issues"
+    },
     "type": "module",
     "scripts": {
         "dev": "vite",
@@ -41,13 +49,9 @@
         "typescript": "^5.0.2",
         "vite": "^4.3.9"
     },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/ahnafwafiq09/firebase-react.git"
-    },
-    "author": "Ahnaf Wafiq",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/ahnafwafiq09/firebase-react/issues"
+    "prettier": {
+        "semi": true,
+        "tabWidth": 4,
+        "singleQuote": false
     }
 }

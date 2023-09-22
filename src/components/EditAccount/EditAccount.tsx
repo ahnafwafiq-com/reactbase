@@ -143,7 +143,10 @@ export default function EditAccount({ isOpen, close }: Props) {
                             type="text"
                             id="displayname"
                             name="displayname"
-                            placeholder={user!.displayName!}
+                            placeholder={
+                                user?.displayName ||
+                                user?.email?.split("@")[0].split("+")[0]
+                            }
                             required
                         />
                         <button type="submit">
@@ -183,7 +186,7 @@ export default function EditAccount({ isOpen, close }: Props) {
                             type="text"
                             id="email"
                             name="email"
-                            placeholder={user!.email!}
+                            placeholder={user?.email || ""}
                             required
                         />
                         <button type="submit">
@@ -273,7 +276,7 @@ export default function EditAccount({ isOpen, close }: Props) {
             </dialog>
             {ErrorObj.error ? (
                 <ShowError
-                    code={ErrorObj.code || ""}
+                    code={ErrorObj.code!}
                     onClose={() =>
                         setErrorObj({
                             error: false,

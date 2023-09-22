@@ -139,20 +139,20 @@ function TodoList({ collectionId }: Props) {
                                 finished: false,
                             });
                             setTodoItems([
-                                ...TodoItems,
                                 {
                                     id: todoRef.id,
                                     task: newTodo,
                                     finished: false,
                                 },
+                                ...TodoItems,
                             ]);
                             setItems([
-                                ...TodoItems,
                                 {
                                     id: todoRef.id,
                                     task: newTodo,
                                     finished: false,
                                 },
+                                ...TodoItems,
                             ]);
                             if (newTodoRef.current) {
                                 newTodoRef.current.value = "";

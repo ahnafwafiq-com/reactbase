@@ -2,16 +2,8 @@
     "name": "reactbase",
     "version": "1.0.0",
     "description": "A Todo app built with Firebase and React",
-    "author": "Ahnaf Wafiq",
     "homepage": "https://reactbase.ahnafwafiq.com",
-    "license": "MIT",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/ahnafwafiq09/firebase-react.git"
-    },
-    "bugs": {
-        "url": "https://github.com/ahnafwafiq09/firebase-react/issues"
-    },
+    "main": "app.tsx",
     "type": "module",
     "scripts": {
         "dev": "vite",
@@ -45,14 +37,23 @@
         "eslint": "^8.47.0",
         "eslint-plugin-react-hooks": "^4.6.0",
         "eslint-plugin-react-refresh": "^0.4.3",
-        "firebase-tools": "^12.5.4",
         "prettier": "^3.0.1",
         "typescript": "^5.0.2",
         "vite": "^4.3.9"
     },
-    "prettier": {
-        "semi": true,
-        "tabWidth": 4,
-        "singleQuote": false
-    }
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ahnafwafiq09/firebase-react.git"
+    },
+    "author": "Ahnaf Wafiq",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/ahnafwafiq09/firebase-react/issues"
+    },
+    "prettier":   GNU nano 6.2                                               .prettierrc.json                                                        {
+    "semi": true,
+    "tabWidth": 4,
+    "singleQuote": false
+}
+
 }

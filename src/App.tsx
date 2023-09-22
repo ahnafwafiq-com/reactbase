@@ -1,41 +1,23 @@
 // Importing CSS files
 import "./CSS/App.css";
 import "normalize.css";
-import { useState } from "react";
+import { useState, useEffect, ReactNode } from "react";
 // Importing External Components
 import SignIn from "./components/SignIn";
-// import EditAccount from "./components/EditAccount";
-// import SideBar from "./components/SideBar";
-import TodoList from "./components/TodoList";
+import SignedIn from "./components/SignedIn";
 import ShowError from "./components/Error/Error";
 import { produce } from "immer";
 
 // Importing Firebase features
-import { getAuth, applyActionCode } from "firebase/auth";
-// import {
-//     addDoc,
-//     collection,
-//     // connectFirestoreEmulator,
-//     getFirestore,
-//     serverTimestamp,
-// } from "firebase/firestore";
-// import app from "./Firebase-config";
+import {
+    getAuth,
+    applyActionCode,
+    onAuthStateChanged,
+    checkActionCode,
+} from "firebase/auth";
+import Message from "./components/Message";
 
 function App() {
-    // const db = getFirestore(app);
-    // // connectFirestoreEmulator(db, "127.0.0.1", 8078);
-    // useEffect(() => {
-    //     const todosRef = collection(db, "todos");
-    //     for (let i = 0; i < 10; i++) {
-    //         addDoc(todosRef, {
-    //             name: `Test Todo ${Math.round(Math.random() * 1000)}`,
-    //             collectionId: "3cL6sW7GFL5zWZxoxuvk",
-    //             createdAt: serverTimestamp(),
-    //             updatedAt: serverTimestamp(),
-    //             finished: Math.round(Math.random()) ? true : false,
-    //         });
-    //     }
-    // });
     const params = new URLSearchParams(window.location.search);
     const [showSignIn, setShowSignIn] = useState<boolean>(false);
     const [ErrorObj, setErrorObj] = useState({
@@ -44,6 +26,33 @@ function App() {
         message: "",
         unchangedMessage: "",
     });
+
+    const [messageObj, setMessageObj] = useState<{
+        show: boolean;
+        message: string | ReactNode;
+    }>({ show: false, message: "" });
+
+    useEffect(() => {
+        const auth = getAuth();
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                if (
+                    user.metadata.creationTime === user.metadata.lastSignInTime
+                ) {
+                    const searchParams = new URLSearchParams();
+                    searchParams.append("email", user.email!);
+                    searchParams.append(
+                        "name",
+                        user.displayName ||
+                            user?.email!.split("@")[0].split("+")[0],
+                    );
+                    fetch(
+                        `https://ahnafwafiq.com/api/reactbase/welcome?${searchParams.toString()}`,
+                    );
+                }
+            }
+        });
+    }, []);
 
     if (params.get("mode") === "resetPassword") {
         return (
@@ -56,15 +65,33 @@ function App() {
     }
     if (params.get("mode") === "verifyEmail" && params.get("oobCode")) {
         const auth = getAuth();
-        const oobCode = params.get("oobCode") || "";
-        applyActionCode(auth, oobCode)
-            .then(() => {
-                const currentURL = window.location.href.split("?")[0];
-                history.replaceState({}, document.title, currentURL);
+        const oobCode = params.get("oobCode")!;
+        checkActionCode(auth, oobCode)
+            .then(({ data }) => {
+                console.log(data);
+                applyActionCode(auth, oobCode)
+                    .then(() => {
+                        const { currentUser: user } = getAuth();
+                        if (user?.emailVerified) {
+                            setMessageObj(
+                                produce((draft) => {
+                                    draft.show = true;
+                                    draft.message = `Your email (${user.email} has been succesfully verified.)`;
+                                }),
+                            );
+                        }
+                    })
+                    .catch((e) => {
+                        setErrorObj(
+                            produce((draft) => {
+                                draft.error = true;
+                                draft.message = e.message;
+                                draft.code = e.code;
+                            }),
+                        );
+                    });
             })
             .catch((e) => {
-                const currentURL = window.location.href.split("?")[0];
-                history.replaceState({}, document.title, currentURL);
                 setErrorObj(
                     produce((draft) => {
                         draft.error = true;
@@ -72,34 +99,30 @@ function App() {
                         draft.code = e.code;
                     }),
                 );
+            })
+            .finally(() => {
+                history.replaceState(
+                    {},
+                    document.title,
+                    window.location.href.split("?")[0],
+                );
             });
-    }
-    // const [user] = useAuthState(auth);
-    interface Todo {
-        id: string;
-        task: string;
-        finished: boolean;
-        created: Date;
-    }
-    const todos: Todo[] = [];
-    for (let i = 0; i < 10; i++) {
-        todos.push({
-            id: Math.round(Math.random() ** 10000).toString(),
-            task: `Suiiiii ${Math.random()}`,
-            finished: Math.round(Math.random()) ? true : false,
-            created: new Date(),
-        });
     }
     return (
         <>
-            {/* <EditAccount /> */}
-            {/* <SideBar /> */}
-            <TodoList collectionId="3cL6sW7GFL5zWZxoxuvk" />
+            <SignedIn />
             <SignIn
                 window={1}
                 isOpen={showSignIn}
                 close={() => setShowSignIn(false)}
             />
+            {messageObj.show ? (
+                <Message
+                    onClose={() => setMessageObj({ show: false, message: "" })}
+                >
+                    {messageObj.message}
+                </Message>
+            ) : null}
             {ErrorObj.error ? (
                 <ShowError
                     code={ErrorObj.code || ""}

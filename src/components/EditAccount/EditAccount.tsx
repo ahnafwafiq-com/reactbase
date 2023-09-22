@@ -12,7 +12,7 @@ import { BiEditAlt } from "react-icons/bi";
 import { FiSave, FiSend } from "react-icons/fi";
 // import { ref, getStorage } from "firebase/storage";
 import { useAuthState } from "react-firebase-hooks/auth";
-import Styles from "./EditAccount.module.css";
+import s from "./EditAccount.module.css";
 import { FormEvent, useRef, useState, useEffect } from "react";
 import AtomicSpinner from "atomic-spinner";
 import ShowError from "../Error";
@@ -25,10 +25,13 @@ import LinkTwitter from "./LinkTwitter";
 import LinkFacebook from "./LinkFacebook";
 import DeleteAccount from "./DeleteAccount";
 
-export default function EditAccount() {
+interface Props {
+    isOpen: boolean;
+    close: () => void;
+}
+
+export default function EditAccount({ isOpen, close }: Props) {
     const [reRender, triggerReRender] = useState(0);
-    const defaultDpUrl =
-        "https://s3.ap-southeast-1.amazonaws.com/cdn.ahnafwafiq.com/user.jpg";
     // console.log(auth.currentUser?.providerData);
     // console.log(auth.currentUser?.providerId);
     const [isLoading, setLoading] = useState(false);
@@ -38,6 +41,16 @@ export default function EditAccount() {
         message: "",
         unchangedMessage: "",
     });
+
+    useEffect(() => {
+        document.addEventListener("keyup", (e: KeyboardEvent) => {
+            if (e.key === "Escape") {
+                e.preventDefault();
+                close();
+            }
+        });
+    }, []);
+
     const auth = getAuth();
     const [user] = useAuthState(auth);
     const [providers, setProviders] = useState({
@@ -82,10 +95,13 @@ export default function EditAccount() {
     const emailRef = useRef<HTMLInputElement>(null);
     return (
         <>
-            <dialog open className={Styles.editAccount}>
+            <dialog open={isOpen} className={s.editAccount}>
                 <img
-                    className={Styles.displayPicture}
-                    src={user?.photoURL || defaultDpUrl}
+                    className={s.displayPicture}
+                    src={
+                        user?.photoURL ||
+                        "https://reactbase.ahnafwafiq.com/user.jpg"
+                    }
                     alt="User Profile Picture"
                 />
                 <h2>
@@ -94,7 +110,7 @@ export default function EditAccount() {
                         user?.email?.split("@")[0].split("+")[0]}
                 </h2>
                 <h4>Edit Account Details:</h4>
-                <div className={Styles.editingDiv}>
+                <div className={s.editingDiv}>
                     <form
                         onSubmit={async (e: FormEvent) => {
                             e.preventDefault();
@@ -127,7 +143,10 @@ export default function EditAccount() {
                             type="text"
                             id="displayname"
                             name="displayname"
-                            placeholder={user?.displayName || ""}
+                            placeholder={
+                                user?.displayName ||
+                                user?.email?.split("@")[0].split("+")[0]
+                            }
                             required
                         />
                         <button type="submit">
@@ -204,7 +223,7 @@ export default function EditAccount() {
                     </button>
                 </div>
                 <h4>Connect other login-in methods:</h4>
-                <div className={Styles.connectionDiv}>
+                <div className={s.connectionDiv}>
                     <table>
                         <LinkGoogle
                             connected={providers.google}
@@ -247,7 +266,7 @@ export default function EditAccount() {
                         await signOut(auth);
                         setLoading(false);
                     }}
-                    className={Styles.signOutBtn}
+                    className={s.signOutBtn}
                 >
                     <RxExit />
                     <span> </span>
@@ -257,7 +276,7 @@ export default function EditAccount() {
             </dialog>
             {ErrorObj.error ? (
                 <ShowError
-                    code={ErrorObj.code || ""}
+                    code={ErrorObj.code!}
                     onClose={() =>
                         setErrorObj({
                             error: false,
